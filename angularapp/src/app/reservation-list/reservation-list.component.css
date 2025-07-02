@@ -1,4 +1,5 @@
-/* Main container card */
+/* === ✅ YOUR EXISTING TABLE & CARD STYLES === */
+
 .reservation-container {
   max-width: 1000px;
   margin: 3rem auto;
@@ -52,4 +53,98 @@
   border-bottom: 1px solid #ddd;
   color: #333;
   font-size: 1rem;
+}
+
+/* === ✅ MODERN Cancel Reservation Modal === */
+
+.custom-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modern-modal-box {
+  background: #ffffff;
+  border-radius: 14px;
+  max-width: 400px;
+  width: 90%;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modern-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modern-modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.modern-modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #d32f2f;
+}
+
+.modern-modal-text {
+  font-size: 1.05rem;
+  color: #444;
+  margin-bottom: 1.8rem;
+}
+
+.modern-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modern-confirm-btn {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.modern-confirm-btn:hover {
+  background: #b71c1c;
+}
+
+.modern-cancel-btn {
+  background: #3e9f3e;
+  color: #f9f7f7;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.modern-cancel-btn:hover {
+  background: #05e80c;
 }

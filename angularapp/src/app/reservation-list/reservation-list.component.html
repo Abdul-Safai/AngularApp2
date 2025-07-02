@@ -12,6 +12,7 @@
           <th>Party Size</th>
           <th>Spots Booked</th>
           <th>Total Spots</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -24,8 +25,30 @@
           <td>{{ reservation.partySize }}</td>
           <td>{{ reservation.spots_booked }}</td>
           <td>{{ reservation.total_spots }}</td>
+          <td>
+            <button (click)="openConfirm(reservation.ID)">
+              Cancel
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- ✅ Modern, professional Cancel modal -->
+  <div *ngIf="showConfirm" class="custom-modal">
+    <div class="modern-modal-box">
+      <div class="modern-modal-header">
+        <div class="modern-modal-icon">⚠️</div>
+        <h3>Confirm Cancellation</h3>
+      </div>
+      <p class="modern-modal-text">
+        Are you sure you want to cancel this reservation?
+      </p>
+      <div class="modern-modal-buttons">
+        <button class="modern-confirm-btn" (click)="confirmCancel()">Yes, Cancel</button>
+        <button class="modern-cancel-btn" (click)="cancelConfirm()">No, Keep It</button>
+      </div>
+    </div>
   </div>
 </section>

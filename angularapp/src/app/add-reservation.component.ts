@@ -29,7 +29,6 @@ export class AddReservationComponent {
         console.log('Reservation added:', response);
         this.successMessage = '✅ Reservation added successfully!';
 
-        // Reset form
         this.newReservation = {
           customerName: '',
           conservationAreaName: '',
@@ -38,11 +37,9 @@ export class AddReservationComponent {
           partySize: 1
         };
 
-        // ✅ Quick fix: reload page to refresh reservation list
         setTimeout(() => {
           this.successMessage = null;
-          window.location.reload();
-        }, 1000);
+        }, 2000);
       },
       error: (error: any) => {
         console.error('Error:', error.error?.details ?? error);

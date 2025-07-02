@@ -72,10 +72,8 @@
     <button type="submit" [disabled]="!reservationForm.valid">
       Add Reservation
     </button>
-
-    <!-- Debug valid -->
-    <p>Form valid: {{ reservationForm.valid }}</p>
   </form>
 
+  <!-- Success or error message -->
   <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
 </section>
