@@ -1,0 +1,81 @@
+<section class="add-reservation-container">
+  <h2 class="add-reservation-heading">Add New Reservation</h2>
+
+  <form (ngSubmit)="onSubmit()" #reservationForm="ngForm">
+    <!-- Customer Name -->
+    <div class="form-row">
+      <label for="customerName">Customer Name</label>
+      <input
+        id="customerName"
+        name="customerName"
+        type="text"
+        [(ngModel)]="newReservation.customerName"
+        required
+      />
+    </div>
+
+    <!-- Conservation Area -->
+    <div class="form-row">
+      <label for="conservationAreaName">Conservation Area</label>
+      <select
+        id="conservationAreaName"
+        name="conservationAreaName"
+        [(ngModel)]="newReservation.conservationAreaName"
+        required
+      >
+        <option [ngValue]="null" disabled selected>Select an area</option>
+        <option [ngValue]="'North Conservation Area'">North Conservation Area</option>
+        <option [ngValue]="'South Conservation Area'">South Conservation Area</option>
+        <option [ngValue]="'East Conservation Area'">East Conservation Area</option>
+        <option [ngValue]="'West Conservation Area'">West Conservation Area</option>
+      </select>
+    </div>
+
+    <!-- Date -->
+    <div class="form-row">
+      <label for="reservationDate">Date</label>
+      <input
+        id="reservationDate"
+        name="reservationDate"
+        type="date"
+        [(ngModel)]="newReservation.reservationDate"
+        required
+      />
+    </div>
+
+    <!-- Time -->
+    <div class="form-row">
+      <label for="reservationTime">Time</label>
+      <input
+        id="reservationTime"
+        name="reservationTime"
+        type="time"
+        [(ngModel)]="newReservation.reservationTime"
+        required
+      />
+    </div>
+
+    <!-- Party Size -->
+    <div class="form-row">
+      <label for="partySize">Party Size</label>
+      <input
+        id="partySize"
+        name="partySize"
+        type="number"
+        [(ngModel)]="newReservation.partySize"
+        min="1"
+        required
+      />
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" [disabled]="!reservationForm.valid">
+      Add Reservation
+    </button>
+
+    <!-- Debug valid -->
+    <p>Form valid: {{ reservationForm.valid }}</p>
+  </form>
+
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+</section>

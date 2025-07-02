@@ -1,0 +1,55 @@
+/* Main container card */
+.reservation-container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem 2.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reservation-heading {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  border-bottom: 4px solid #007acc;
+  display: inline-block;
+  color: #007acc;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.reservation-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reservation-table th,
+.reservation-table td {
+  text-align: left;
+  padding: 1rem;
+}
+
+.reservation-table th {
+  background: #007acc;
+  color: #fff;
+  font-weight: 600;
+}
+
+.reservation-table tbody tr:nth-child(even) {
+  background: #f5faff;
+}
+
+.reservation-table tbody tr:hover {
+  background: #eaf4fb;
+  transition: background 0.2s ease;
+}
+
+.reservation-table td {
+  border-bottom: 1px solid #ddd;
+  color: #333;
+  font-size: 1rem;
+}

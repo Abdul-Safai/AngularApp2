@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';      // ✅ Required for *ngFor
+import { CommonModule } from '@angular/common';
 import { ReservationService } from '../reservation.service';
 import { Reservation } from '../reservation';
 
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [CommonModule],                           // ✅ Must import CommonModule
-  templateUrl: './reservation-list.component.html'   // ✅ File must exist!
+  imports: [CommonModule],
+  templateUrl: './reservation-list.component.html',
+  styleUrls: ['./reservation-list.component.css']
 })
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[] = [];
@@ -15,8 +16,13 @@ export class ReservationListComponent implements OnInit {
   constructor(private reservationService: ReservationService) {}
 
   ngOnInit(): void {
-    this.reservationService.getReservations().subscribe(data => {
-      this.reservations = data;
+    this.reservationService.getReservations().subscribe({
+      next: (data: Reservation[]) => {
+        this.reservations = data;
+      },
+      error: (error) => {
+        console.error('Error fetching reservations:', error);
+      }
     });
   }
 }

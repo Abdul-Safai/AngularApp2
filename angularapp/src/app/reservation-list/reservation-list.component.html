@@ -1,8 +1,31 @@
-<h2>Reservations</h2>
-<ul>
-  <li *ngFor="let reservation of reservations">
-    {{ reservation.customerName }} | 
-    {{ reservation.conservationAreaName }} |
-    {{ reservation.reservationDate }} {{ reservation.reservationTime }}
-  </li>
-</ul>
+<section class="reservation-container">
+  <h2 class="reservation-heading">Reservations</h2>
+  <div class="table-wrapper">
+    <table class="reservation-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer Name</th>
+          <th>Conservation Area</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Party Size</th>
+          <th>Spots Booked</th>
+          <th>Total Spots</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.ID }}</td>
+          <td>{{ reservation.customerName }}</td>
+          <td>{{ reservation.conservationAreaName }}</td>
+          <td>{{ reservation.reservationDate }}</td>
+          <td>{{ reservation.reservationTime }}</td>
+          <td>{{ reservation.partySize }}</td>
+          <td>{{ reservation.spots_booked }}</td>
+          <td>{{ reservation.total_spots }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
