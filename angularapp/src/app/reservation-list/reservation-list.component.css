@@ -1,5 +1,4 @@
-/* === ✅ YOUR EXISTING TABLE & CARD STYLES === */
-
+/* === Main container === */
 .reservation-container {
   max-width: 1000px;
   margin: 3rem auto;
@@ -11,7 +10,7 @@
 }
 
 .reservation-heading {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
   border-bottom: 4px solid #007acc;
@@ -55,12 +54,75 @@
   font-size: 1rem;
 }
 
-/* === ✅ MODERN Cancel Reservation Modal === */
+/* ✅ Group row background */
+.group-row {
+  background: #eef7fc;
+  font-weight: 600;
+  color: #005f99;
+}
 
+/* === Customer nested list === */
+.customer-details {
+  background: #f9f9f9;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.customer-details strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #007acc;
+}
+
+.customer-details ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.customer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-top: 1px dashed #ddd;
+}
+
+.customer-row span {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.cancel-btn,
+.edit-btn {
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 8px;
+  transition: background 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #c9302c;
+}
+
+.edit-btn {
+  background: #5bc0de;
+}
+
+.edit-btn:hover {
+  background: #31b0d5;
+}
+
+/* === Modern custom modal === */
 .custom-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,77 +136,83 @@
 }
 
 .modern-modal-box {
-  background: #ffffff;
-  border-radius: 14px;
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  text-align: left;
   max-width: 400px;
-  width: 90%;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.2s ease-out;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .modern-modal-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   margin-bottom: 1rem;
 }
 
 .modern-modal-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.2rem;
-}
-
-.modern-modal-header h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  color: #d32f2f;
+  font-size: 1.8rem;
+  margin-right: 0.5rem;
 }
 
 .modern-modal-text {
-  font-size: 1.05rem;
-  color: #444;
-  margin-bottom: 1.8rem;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .modern-modal-buttons {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.modern-modal-buttons button {
+  margin: 0 5px;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
 }
 
 .modern-confirm-btn {
-  background: #d32f2f;
+  background: #5cb85c;
   color: #fff;
-  border: none;
-  padding: 0.6rem 1.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s ease;
 }
 
 .modern-confirm-btn:hover {
-  background: #b71c1c;
+  background: #4cae4c;
 }
 
 .modern-cancel-btn {
-  background: #3e9f3e;
-  color: #f9f7f7;
-  border: none;
-  padding: 0.6rem 1.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s ease;
+  background: #e0e0e0;
+  color: #333;
 }
 
 .modern-cancel-btn:hover {
-  background: #05e80c;
+  background: #d0d0d0;
+}
+
+/* ✅ Form styling in modal */
+.modern-modal-box .form-group {
+  margin-bottom: 1rem;
+}
+
+.modern-modal-box label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.modern-modal-box input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
 }

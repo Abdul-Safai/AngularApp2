@@ -8,11 +8,8 @@ import { Reservation } from './reservation';
   providedIn: 'root'
 })
 export class ReservationService {
-  private getUrl = 'http://localhost/AngularApp2/angularapp_api/get_reservations.php';
-  private addUrl = 'http://localhost/AngularApp2/angularapp_api/add_reservation.php';
-  private deleteUrl = 'http://localhost/AngularApp2/angularapp_api/delete_reservation.php';
+  private apiUrl = 'http://localhost/AngularApp2/angularapp_api/get_reservations.php';
 
-  // ✅ Subject to trigger auto-refresh
   private refreshNeeded = new Subject<void>();
   get refreshNeeded$() {
     return this.refreshNeeded.asObservable();
@@ -20,23 +17,45 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {}
 
+  // ✅ Fetch all reservations
   getReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.getUrl);
+    return this.http.get<Reservation[]>(this.apiUrl);
   }
 
+  // ✅ Create a new reservation
   createReservation(reservation: any) {
-    return this.http.post(this.addUrl, reservation).pipe(
+    return this.http.post(
+      'http://localhost/AngularApp2/angularapp_api/add_reservation.php',
+      reservation
+    ).pipe(
       tap(() => {
-        console.log('✅ Reservation added — emitting refresh');
+        console.log('✅ Emitting refresh after create!');
         this.refreshNeeded.next();
       })
     );
   }
 
-  deleteReservation(id: number) {
-    return this.http.post(this.deleteUrl, { id: id }).pipe(
+  // ✅ Delete a reservation by ID
+  deleteReservationById(id: number) {
+    return this.http.post(
+      'http://localhost/AngularApp2/angularapp_api/delete_reservation.php',
+      { id: id }
+    ).pipe(
       tap(() => {
-        console.log(`✅ Reservation ${id} deleted — emitting refresh`);
+        console.log('✅ Emitting refresh after delete:', id);
+        this.refreshNeeded.next();
+      })
+    );
+  }
+
+  // ✅ Update an existing reservation by ID
+  updateReservation(reservation: any) {
+    return this.http.post(
+      'http://localhost/AngularApp2/angularapp_api/update_reservation.php',
+      reservation
+    ).pipe(
+      tap(() => {
+        console.log('✅ Emitting refresh after update:', reservation);
         this.refreshNeeded.next();
       })
     );

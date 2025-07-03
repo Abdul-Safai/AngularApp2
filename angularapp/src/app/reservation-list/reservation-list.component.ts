@@ -1,27 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../reservation.service';
 import { Reservation } from '../reservation';
 
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './reservation-list.component.html',
   styleUrls: ['./reservation-list.component.css']
 })
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[] = [];
-
-  // ✅ New modal state
   showConfirm = false;
-  pendingId: number | null = null;
+
+  reservationIdToCancel: number | null = null;
+
+  // ✅ Rename to showUpdate
+  showUpdate = false;
+  editCustomer: any = null;
 
   constructor(private reservationService: ReservationService) {}
 
   ngOnInit(): void {
     this.loadReservations();
-
     this.reservationService.refreshNeeded$.subscribe(() => {
       this.loadReservations();
     });
@@ -29,8 +32,13 @@ export class ReservationListComponent implements OnInit {
 
   loadReservations() {
     this.reservationService.getReservations().subscribe({
-      next: (data: Reservation[]) => {
-        this.reservations = data;
+      next: (data: any[]) => {
+        this.reservations = data.map(res => ({
+          ...res,
+          total_booked: Number(res.total_booked),
+          total_spots: Number(res.total_spots),
+          customers: res.customers || []
+        }));
       },
       error: (error) => {
         console.error('Error fetching reservations:', error);
@@ -38,32 +46,55 @@ export class ReservationListComponent implements OnInit {
     });
   }
 
-  // ✅ New: open custom modal
-  openConfirm(id: number) {
-    this.pendingId = id;
+  openConfirmCustomer(customerId: number) {
+    this.reservationIdToCancel = customerId;
     this.showConfirm = true;
   }
 
-  // ✅ New: confirm deletion
   confirmCancel() {
-    if (this.pendingId !== null) {
-      this.reservationService.deleteReservation(this.pendingId).subscribe({
+    if (this.reservationIdToCancel) {
+      this.reservationService.deleteReservationById(this.reservationIdToCancel).subscribe({
         next: () => {
-          console.log(`✅ Reservation ${this.pendingId} cancelled`);
+          console.log(`✅ Reservation ID ${this.reservationIdToCancel} cancelled`);
           this.loadReservations();
         },
         error: (error) => {
           console.error('❌ Error cancelling reservation:', error);
         }
       });
-      this.pendingId = null;
+      this.reservationIdToCancel = null;
       this.showConfirm = false;
     }
   }
 
-  // ✅ New: close modal without deleting
   cancelConfirm() {
-    this.pendingId = null;
+    this.reservationIdToCancel = null;
     this.showConfirm = false;
+  }
+
+  // ✅ Open update modal
+  openUpdateCustomer(customer: any) {
+    this.editCustomer = { ...customer };
+    this.showUpdate = true;
+  }
+
+  // ✅ Confirm update
+  confirmUpdate() {
+    this.reservationService.updateReservation(this.editCustomer).subscribe({
+      next: () => {
+        console.log('✅ Reservation updated:', this.editCustomer);
+        this.loadReservations();
+      },
+      error: (error) => {
+        console.error('❌ Error updating reservation:', error);
+      }
+    });
+    this.showUpdate = false;
+    this.editCustomer = null;
+  }
+
+  cancelUpdate() {
+    this.showUpdate = false;
+    this.editCustomer = null;
   }
 }

@@ -1,11 +1,12 @@
-// reservation.ts
 export interface Reservation {
-  ID: number;
-  customerName: string;
   conservationAreaName: string;
   reservationDate: string;
   reservationTime: string;
-  partySize: number;
+  total_booked: number;
   total_spots: number;
-  spots_booked: number;
+  customers: {
+    ID: number;                // ✅ this must exist!
+    customerName: string;
+    spots_booked: number;
+  }[];
 }
