@@ -1,25 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // ✅ Needed for ngModel
 import { ReservationService } from '../reservation.service';
 import { Reservation } from '../reservation';
 
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule], // ✅ Use FormsModule for [(ngModel)]
   templateUrl: './reservation-list.component.html',
   styleUrls: ['./reservation-list.component.css']
 })
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[] = [];
+
+  filterArea: string = '';     // ✅ Area filter binding
+  areas: string[] = [];        // ✅ Unique areas for dropdown
+
   showConfirm = false;
+  showUpdate = false;
 
   reservationIdToCancel: number | null = null;
-
-  // ✅ Rename to showUpdate
-  showUpdate = false;
-  editCustomer: any = null;
+  editCustomer: any = {};
 
   constructor(private reservationService: ReservationService) {}
 
@@ -28,6 +30,16 @@ export class ReservationListComponent implements OnInit {
     this.reservationService.refreshNeeded$.subscribe(() => {
       this.loadReservations();
     });
+  }
+
+  // ✅ Getter to apply filter dynamically
+  get filteredReservations() {
+    if (!this.filterArea) {
+      return this.reservations;
+    }
+    return this.reservations.filter(
+      res => res.conservationAreaName === this.filterArea
+    );
   }
 
   loadReservations() {
@@ -39,9 +51,11 @@ export class ReservationListComponent implements OnInit {
           total_spots: Number(res.total_spots),
           customers: res.customers || []
         }));
+        // ✅ Build unique areas list for filter dropdown
+        this.areas = [...new Set(this.reservations.map(r => r.conservationAreaName))];
       },
       error: (error) => {
-        console.error('Error fetching reservations:', error);
+        console.error('❌ Error fetching reservations:', error);
       }
     });
   }
@@ -72,13 +86,11 @@ export class ReservationListComponent implements OnInit {
     this.showConfirm = false;
   }
 
-  // ✅ Open update modal
   openUpdateCustomer(customer: any) {
     this.editCustomer = { ...customer };
     this.showUpdate = true;
   }
 
-  // ✅ Confirm update
   confirmUpdate() {
     this.reservationService.updateReservation(this.editCustomer).subscribe({
       next: () => {
@@ -90,11 +102,9 @@ export class ReservationListComponent implements OnInit {
       }
     });
     this.showUpdate = false;
-    this.editCustomer = null;
   }
 
   cancelUpdate() {
     this.showUpdate = false;
-    this.editCustomer = null;
   }
 }

@@ -1,5 +1,15 @@
 <section class="reservation-container">
   <h2 class="reservation-heading">Reservations</h2>
+
+  <!-- ✅ Modern Filter Bar -->
+  <div class="filter-wrapper">
+    <label for="filterArea" class="filter-label">Filter by Area:</label>
+    <select id="filterArea" [(ngModel)]="filterArea" class="filter-select">
+      <option value="">All Areas</option>
+      <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
+    </select>
+  </div>
+
   <div class="table-wrapper">
     <table class="reservation-table">
       <thead>
@@ -13,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let reservation of reservations">
+        <ng-container *ngFor="let reservation of filteredReservations">
           <!-- ✅ Group row -->
           <tr class="group-row">
             <td>{{ reservation.conservationAreaName }}</td>
@@ -24,16 +34,20 @@
             <td>{{ reservation.total_spots - reservation.total_booked }}</td>
           </tr>
 
-          <!-- ✅ Customer details row -->
+          <!-- ✅ Customer list -->
           <tr>
             <td colspan="6" class="customer-details">
               <strong>Customers:</strong>
               <ul>
                 <li *ngFor="let customer of reservation.customers" class="customer-row">
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
-                  <div class="customer-actions">
-                    <button class="update-btn" (click)="openUpdateCustomer(customer)">Update</button>
-                    <button class="cancel-btn" (click)="openConfirmCustomer(customer.ID)">Cancel</button>
+                  <div class="action-buttons">
+                    <button class="update-btn" (click)="openUpdateCustomer(customer)">
+                      Update
+                    </button>
+                    <button class="cancel-btn" (click)="openConfirmCustomer(customer.ID)">
+                      Cancel
+                    </button>
                   </div>
                 </li>
               </ul>
@@ -70,24 +84,28 @@
       </div>
       <form (ngSubmit)="confirmUpdate()">
         <div class="form-group">
-          <input type="text" [(ngModel)]="editCustomer.customerName" name="customerName" placeholder="Customer Name" required />
+          <label>Customer Name</label>
+          <input type="text" [(ngModel)]="editCustomer.customerName" name="customerName" required />
         </div>
         <div class="form-group">
-          <input type="text" [(ngModel)]="editCustomer.conservationAreaName" name="conservationAreaName" placeholder="Conservation Area" required />
+          <label>Conservation Area</label>
+          <input type="text" [(ngModel)]="editCustomer.conservationAreaName" name="conservationAreaName" required />
         </div>
         <div class="form-group">
+          <label>Date</label>
           <input type="date" [(ngModel)]="editCustomer.reservationDate" name="reservationDate" required />
         </div>
         <div class="form-group">
+          <label>Time</label>
           <input type="time" [(ngModel)]="editCustomer.reservationTime" name="reservationTime" required />
         </div>
         <div class="form-group">
-          <input type="number" [(ngModel)]="editCustomer.partySize" name="partySize" min="1" placeholder="Party Size" required />
+          <label>Party Size</label>
+          <input type="number" [(ngModel)]="editCustomer.partySize" name="partySize" min="1" required />
         </div>
-
         <div class="modern-modal-buttons">
           <button type="submit" class="modern-confirm-btn">Update</button>
-          <button type="button" class="modern-cancel-btn" (click)="cancelUpdate()">Cancel</button>
+          <button type="button" class="modern-cancel-btn" (click)="cancelUpdate()">Close</button>
         </div>
       </form>
     </div>
