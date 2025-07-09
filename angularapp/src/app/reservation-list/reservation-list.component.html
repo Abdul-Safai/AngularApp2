@@ -34,17 +34,20 @@
             <td>{{ reservation.total_spots - reservation.total_booked }}</td>
           </tr>
 
-          <!-- ✅ Customer list -->
+          <!-- ✅ Customer list with image fallback -->
           <tr>
             <td colspan="6" class="customer-details">
               <strong>Customers:</strong>
               <ul>
                 <li *ngFor="let customer of reservation.customers" class="customer-row">
-                  <!-- ✅ Customer image with fallback -->
                   <img
-                    [src]="customer.imageUrl || 'https://via.placeholder.com/50'"
-                    alt="Customer"
-                    class="customer-image"
+                    class="customer-photo"
+                    [src]="
+                      customer.imageUrl && customer.imageUrl.trim() !== ''
+                        ? '/assets/images/' + customer.imageUrl.trim()
+                        : '/assets/images/placeholder.png'
+                    "
+                    alt="{{ customer.customerName }}"
                   />
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
                   <div class="action-buttons">
@@ -108,10 +111,6 @@
         <div class="form-group">
           <label>Party Size</label>
           <input type="number" [(ngModel)]="editCustomer.partySize" name="partySize" min="1" required />
-        </div>
-        <div class="form-group">
-          <label>Image URL (optional)</label>
-          <input type="text" [(ngModel)]="editCustomer.imageUrl" name="imageUrl" placeholder="https://..." />
         </div>
         <div class="modern-modal-buttons">
           <button type="submit" class="modern-confirm-btn">Update</button>

@@ -7,15 +7,14 @@ import { Reservation } from '../reservation';
 @Component({
   selector: 'app-reservation-list',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Use FormsModule for [(ngModel)]
+  imports: [CommonModule, FormsModule],
   templateUrl: './reservation-list.component.html',
   styleUrls: ['./reservation-list.component.css']
 })
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[] = [];
-
-  filterArea: string = '';     // ✅ Area filter binding
-  areas: string[] = [];        // ✅ Unique areas for dropdown
+  filterArea: string = '';
+  areas: string[] = [];
 
   showConfirm = false;
   showUpdate = false;
@@ -32,11 +31,8 @@ export class ReservationListComponent implements OnInit {
     });
   }
 
-  // ✅ Getter to apply filter dynamically
   get filteredReservations() {
-    if (!this.filterArea) {
-      return this.reservations;
-    }
+    if (!this.filterArea) return this.reservations;
     return this.reservations.filter(
       res => res.conservationAreaName === this.filterArea
     );
@@ -49,9 +45,11 @@ export class ReservationListComponent implements OnInit {
           ...res,
           total_booked: Number(res.total_booked),
           total_spots: Number(res.total_spots),
-          customers: res.customers || []
+          customers: res.customers?.map((cust: any) => ({
+            ...cust,
+            imageUrl: cust.imageUrl && cust.imageUrl.trim() !== '' ? cust.imageUrl.trim() : 'placeholder.png'
+          })) || []
         }));
-        // ✅ Build unique areas list for filter dropdown
         this.areas = [...new Set(this.reservations.map(r => r.conservationAreaName))];
       },
       error: (error) => {
