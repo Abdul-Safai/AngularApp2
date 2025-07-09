@@ -40,6 +40,12 @@
               <strong>Customers:</strong>
               <ul>
                 <li *ngFor="let customer of reservation.customers" class="customer-row">
+                  <!-- ✅ Customer image with fallback -->
+                  <img
+                    [src]="customer.imageUrl || 'https://via.placeholder.com/50'"
+                    alt="Customer"
+                    class="customer-image"
+                  />
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
                   <div class="action-buttons">
                     <button class="update-btn" (click)="openUpdateCustomer(customer)">
@@ -102,6 +108,10 @@
         <div class="form-group">
           <label>Party Size</label>
           <input type="number" [(ngModel)]="editCustomer.partySize" name="partySize" min="1" required />
+        </div>
+        <div class="form-group">
+          <label>Image URL (optional)</label>
+          <input type="text" [(ngModel)]="editCustomer.imageUrl" name="imageUrl" placeholder="https://..." />
         </div>
         <div class="modern-modal-buttons">
           <button type="submit" class="modern-confirm-btn">Update</button>

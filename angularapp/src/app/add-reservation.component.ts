@@ -20,8 +20,13 @@ export class AddReservationComponent {
   };
 
   successMessage: string | null = null;
+  showForm: boolean = false; // ✅ Toggle flag for the form
 
   constructor(private reservationService: ReservationService) {}
+
+  toggleForm(): void {
+    this.showForm = !this.showForm;
+  }
 
   onSubmit(): void {
     this.reservationService.createReservation(this.newReservation).subscribe({
@@ -40,6 +45,8 @@ export class AddReservationComponent {
         setTimeout(() => {
           this.successMessage = null;
         }, 2000);
+
+        this.showForm = false; // ✅ Auto-hide after submit
       },
       error: (error: any) => {
         console.error('Error:', error.error?.details ?? error);
