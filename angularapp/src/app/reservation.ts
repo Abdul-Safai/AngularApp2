@@ -9,6 +9,6 @@ export interface Reservation {
     ID: number;
     customerName: string;
     spots_booked: number;
-    imageUrl?: string; // ✅ Always exists, fallback handled in TS!
+    imageFileName?: string;  // ✅ This is what your API returns
   }[];
 }

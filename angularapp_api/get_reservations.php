@@ -4,7 +4,6 @@ header("Content-Type: application/json");
 
 require_once("database.php");
 
-// Grouped slots query
 $query = "
   SELECT 
     conservationAreaName,
@@ -20,10 +19,9 @@ $statement->execute();
 $groups = $statement->fetchAll(PDO::FETCH_ASSOC);
 $statement->closeCursor();
 
-// ✅ Add full customer list with IDs for each group
 foreach ($groups as &$group) {
   $detailsQuery = "
-    SELECT ID, customerName, spots_booked
+    SELECT ID, customerName, spots_booked, imageFileName
     FROM reservations
     WHERE conservationAreaName = :area
       AND reservationDate = :date

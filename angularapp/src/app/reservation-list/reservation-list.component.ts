@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // ✅ Needed for ngModel
+import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../reservation.service';
 import { Reservation } from '../reservation';
 
@@ -47,7 +47,7 @@ export class ReservationListComponent implements OnInit {
           total_spots: Number(res.total_spots),
           customers: res.customers?.map((cust: any) => ({
             ...cust,
-            imageUrl: cust.imageUrl && cust.imageUrl.trim() !== '' ? cust.imageUrl.trim() : 'placeholder.png'
+            imageFileName: cust.imageFileName || '' // ✅ Always defined
           })) || []
         }));
         this.areas = [...new Set(this.reservations.map(r => r.conservationAreaName))];

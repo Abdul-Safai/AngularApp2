@@ -22,11 +22,11 @@ export class ReservationService {
     return this.http.get<Reservation[]>(this.apiUrl);
   }
 
-  // ✅ Create a new reservation
-  createReservation(reservation: any) {
+  // ✅ Create a new reservation WITH FILE UPLOAD
+  createReservation(formData: FormData) {
     return this.http.post(
-      'http://localhost/AngularApp2/angularapp_api/add_reservation.php',
-      reservation
+      'http://localhost/AngularApp2/angularapp_api/create_reservation.php', // ✅ POINT TO THE CORRECT FILE!
+      formData
     ).pipe(
       tap(() => {
         console.log('✅ Emitting refresh after create!');

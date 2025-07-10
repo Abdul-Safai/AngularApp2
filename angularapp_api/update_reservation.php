@@ -11,15 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once("database.php");
 
-// ✅ Read JSON input
-$data = json_decode(file_get_contents("php://input"));
+// ✅ Use POST + multipart/form-data
+$id = isset($_POST['ID']) ? intval($_POST['ID']) : 0;
+$customerName = trim($_POST['customerName'] ?? '');
+$area = trim($_POST['conservationAreaName'] ?? '');
+$date = trim($_POST['reservationDate'] ?? '');
+$time = trim($_POST['reservationTime'] ?? '');
+$partySize = isset($_POST['partySize']) ? intval($_POST['partySize']) : 0;
 
-$id = isset($data->ID) ? intval($data->ID) : 0;
-$customerName = trim($data->customerName ?? '');
-$area = trim($data->conservationAreaName ?? '');
-$date = trim($data->reservationDate ?? '');
-$time = trim($data->reservationTime ?? '');
-$partySize = isset($data->partySize) ? intval($data->partySize) : 0;
+// ✅ Handle uploaded file if provided
+$imageFileName = null;
+
+if (isset($_FILES['customerImage']) && $_FILES['customerImage']['error'] === UPLOAD_ERR_OK) {
+  $uploadDir = __DIR__ . '/uploads/';
+  if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+  }
+
+  $tmpName = $_FILES['customerImage']['tmp_name'];
+  $baseName = basename($_FILES['customerImage']['name']);
+  $targetPath = $uploadDir . $baseName;
+
+  if (move_uploaded_file($tmpName, $targetPath)) {
+    $imageFileName = $baseName;
+  }
+}
 
 // ✅ Basic validation
 if ($id <= 0 || $customerName === '' || $area === '' || $date === '' || $time === '' || $partySize <= 0) {
@@ -29,14 +45,20 @@ if ($id <= 0 || $customerName === '' || $area === '' || $date === '' || $time ==
 }
 
 try {
+  // ✅ Add imageFileName if uploaded
   $query = "UPDATE reservations 
             SET customerName = :customerName,
                 conservationAreaName = :conservationAreaName,
                 reservationDate = :reservationDate,
                 reservationTime = :reservationTime,
                 partySize = :partySize,
-                spots_booked = :partySize
-            WHERE ID = :id";
+                spots_booked = :partySize";
+
+  if ($imageFileName) {
+    $query .= ", imageFileName = :imageFileName";
+  }
+
+  $query .= " WHERE ID = :id";
 
   $statement = $db->prepare($query);
   $statement->bindValue(':customerName', $customerName);
@@ -45,6 +67,11 @@ try {
   $statement->bindValue(':reservationTime', $time);
   $statement->bindValue(':partySize', $partySize);
   $statement->bindValue(':id', $id);
+
+  if ($imageFileName) {
+    $statement->bindValue(':imageFileName', $imageFileName);
+  }
+
   $statement->execute();
   $statement->closeCursor();
 

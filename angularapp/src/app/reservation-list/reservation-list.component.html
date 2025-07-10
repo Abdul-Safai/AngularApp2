@@ -1,7 +1,7 @@
 <section class="reservation-container">
   <h2 class="reservation-heading">Reservations</h2>
 
-  <!-- ✅ Modern Filter Bar -->
+  <!-- ✅ Filter Bar -->
   <div class="filter-wrapper">
     <label for="filterArea" class="filter-label">Filter by Area:</label>
     <select id="filterArea" [(ngModel)]="filterArea" class="filter-select">
@@ -34,7 +34,7 @@
             <td>{{ reservation.total_spots - reservation.total_booked }}</td>
           </tr>
 
-          <!-- ✅ Customer list with image fallback -->
+          <!-- ✅ Customers -->
           <tr>
             <td colspan="6" class="customer-details">
               <strong>Customers:</strong>
@@ -43,20 +43,18 @@
                   <img
                     class="customer-photo"
                     [src]="
-                      customer.imageUrl && customer.imageUrl.trim() !== ''
-                        ? '/assets/images/' + customer.imageUrl.trim()
-                        : '/assets/images/placeholder.png'
+                      customer.imageFileName && customer.imageFileName.trim() !== ''
+                        ? 'http://localhost/AngularApp2/angularapp_api/uploads/' + customer.imageFileName.trim()
+                        : 'assets/images/placeholder.png'
                     "
                     alt="{{ customer.customerName }}"
                   />
+
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
+
                   <div class="action-buttons">
-                    <button class="update-btn" (click)="openUpdateCustomer(customer)">
-                      Update
-                    </button>
-                    <button class="cancel-btn" (click)="openConfirmCustomer(customer.ID)">
-                      Cancel
-                    </button>
+                    <button class="update-btn" (click)="openUpdateCustomer(customer)">Update</button>
+                    <button class="cancel-btn" (click)="openConfirmCustomer(customer.ID)">Cancel</button>
                   </div>
                 </li>
               </ul>
@@ -74,9 +72,7 @@
         <div class="modern-modal-icon">⚠️</div>
         <h3>Confirm Cancellation</h3>
       </div>
-      <p class="modern-modal-text">
-        Are you sure you want to cancel this customer’s reservation?
-      </p>
+      <p>Are you sure you want to cancel this customer’s reservation?</p>
       <div class="modern-modal-buttons">
         <button class="modern-confirm-btn" (click)="confirmCancel()">Yes, Cancel</button>
         <button class="modern-cancel-btn" (click)="cancelConfirm()">No, Keep It</button>

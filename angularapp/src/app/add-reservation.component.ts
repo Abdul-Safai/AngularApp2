@@ -19,8 +19,9 @@ export class AddReservationComponent {
     partySize: 1
   };
 
+  selectedFile: File | null = null;
   successMessage: string | null = null;
-  showForm: boolean = false; // ✅ Toggle flag for the form
+  showForm: boolean = false;
 
   constructor(private reservationService: ReservationService) {}
 
@@ -28,30 +29,49 @@ export class AddReservationComponent {
     this.showForm = !this.showForm;
   }
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] || null;
+    console.log('Selected file:', this.selectedFile);
+  }
+
   onSubmit(): void {
-    this.reservationService.createReservation(this.newReservation).subscribe({
+    const formData = new FormData();
+    formData.append('customerName', this.newReservation.customerName);
+    formData.append('conservationAreaName', this.newReservation.conservationAreaName);
+    formData.append('reservationDate', this.newReservation.reservationDate);
+    formData.append('reservationTime', this.newReservation.reservationTime);
+    formData.append('partySize', this.newReservation.partySize.toString());
+
+    if (this.selectedFile) {
+      formData.append('customerImage', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.reservationService.createReservation(formData).subscribe({
       next: (response: any) => {
-        console.log('Reservation added:', response);
+        console.log('✅ Reservation added:', response);
         this.successMessage = '✅ Reservation added successfully!';
-
-        this.newReservation = {
-          customerName: '',
-          conservationAreaName: '',
-          reservationDate: '',
-          reservationTime: '',
-          partySize: 1
-        };
-
-        setTimeout(() => {
-          this.successMessage = null;
-        }, 2000);
-
-        this.showForm = false; // ✅ Auto-hide after submit
+        this.resetForm();
       },
       error: (error: any) => {
-        console.error('Error:', error.error?.details ?? error);
+        console.error('❌ Error:', error.error?.details ?? error);
         this.successMessage = '❌ Failed to add reservation. Please try again.';
       }
     });
+  }
+
+  resetForm(): void {
+    this.newReservation = {
+      customerName: '',
+      conservationAreaName: '',
+      reservationDate: '',
+      reservationTime: '',
+      partySize: 1
+    };
+    this.selectedFile = null;
+    this.showForm = false;
+
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 2000);
   }
 }

@@ -8,7 +8,7 @@
   <div *ngIf="showForm">
     <h2 class="add-reservation-heading">Add New Reservation</h2>
 
-    <form (ngSubmit)="onSubmit()" #reservationForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #reservationForm="ngForm" enctype="multipart/form-data">
       <!-- Customer Name -->
       <div class="form-row">
         <label for="customerName">Customer Name</label>
@@ -72,6 +72,17 @@
           [(ngModel)]="newReservation.partySize"
           min="1"
           required
+        />
+      </div>
+
+      <!-- ✅ Customer Image Upload -->
+      <div class="form-row">
+        <label for="customerImage">Customer Image</label>
+        <input
+          type="file"
+          id="customerImage"
+          name="customerImage"
+          (change)="onFileSelected($event)"
         />
       </div>
 
