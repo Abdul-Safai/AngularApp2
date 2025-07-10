@@ -21,6 +21,7 @@ export class ReservationListComponent implements OnInit {
 
   reservationIdToCancel: number | null = null;
   editCustomer: any = {};
+  selectedUpdateFile: File | null = null; // ✅ Added
 
   constructor(private reservationService: ReservationService) {}
 
@@ -86,11 +87,29 @@ export class ReservationListComponent implements OnInit {
 
   openUpdateCustomer(customer: any) {
     this.editCustomer = { ...customer };
+    this.selectedUpdateFile = null; // ✅ Reset file
     this.showUpdate = true;
   }
 
+  onUpdateFileSelected(event: any): void {
+    this.selectedUpdateFile = event.target.files[0] || null;
+    console.log('Selected update file:', this.selectedUpdateFile);
+  }
+
   confirmUpdate() {
-    this.reservationService.updateReservation(this.editCustomer).subscribe({
+    const formData = new FormData();
+    formData.append('ID', this.editCustomer.ID);
+    formData.append('customerName', this.editCustomer.customerName);
+    formData.append('conservationAreaName', this.editCustomer.conservationAreaName);
+    formData.append('reservationDate', this.editCustomer.reservationDate);
+    formData.append('reservationTime', this.editCustomer.reservationTime);
+    formData.append('partySize', this.editCustomer.partySize.toString());
+
+    if (this.selectedUpdateFile) {
+      formData.append('customerImage', this.selectedUpdateFile, this.selectedUpdateFile.name);
+    }
+
+    this.reservationService.updateReservation(formData).subscribe({
       next: () => {
         console.log('✅ Reservation updated:', this.editCustomer);
         this.loadReservations();

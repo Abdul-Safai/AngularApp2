@@ -81,38 +81,80 @@
   </div>
 
   <!-- ✅ Update modal -->
-  <div *ngIf="showUpdate" class="custom-modal">
-    <div class="modern-modal-box">
-      <div class="modern-modal-header">
-        <div class="modern-modal-icon">✏️</div>
-        <h3>Update Reservation</h3>
-      </div>
-      <form (ngSubmit)="confirmUpdate()">
-        <div class="form-group">
-          <label>Customer Name</label>
-          <input type="text" [(ngModel)]="editCustomer.customerName" name="customerName" required />
-        </div>
-        <div class="form-group">
-          <label>Conservation Area</label>
-          <input type="text" [(ngModel)]="editCustomer.conservationAreaName" name="conservationAreaName" required />
-        </div>
-        <div class="form-group">
-          <label>Date</label>
-          <input type="date" [(ngModel)]="editCustomer.reservationDate" name="reservationDate" required />
-        </div>
-        <div class="form-group">
-          <label>Time</label>
-          <input type="time" [(ngModel)]="editCustomer.reservationTime" name="reservationTime" required />
-        </div>
-        <div class="form-group">
-          <label>Party Size</label>
-          <input type="number" [(ngModel)]="editCustomer.partySize" name="partySize" min="1" required />
-        </div>
-        <div class="modern-modal-buttons">
-          <button type="submit" class="modern-confirm-btn">Update</button>
-          <button type="button" class="modern-cancel-btn" (click)="cancelUpdate()">Close</button>
-        </div>
-      </form>
+<div *ngIf="showUpdate" class="custom-modal">
+  <div class="modern-modal-box" style="max-width: 500px; font-family: Arial, sans-serif;">
+    <div class="modern-modal-header">
+      <div class="modern-modal-icon">✏️</div>
+      <h3 style="margin: 0; font-size: 1.5rem;">Update Reservation</h3>
     </div>
+    <form (ngSubmit)="confirmUpdate()" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Customer Name</label>
+        <input
+          type="text"
+          [(ngModel)]="editCustomer.customerName"
+          name="customerName"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Conservation Area</label>
+        <select
+          [(ngModel)]="editCustomer.conservationAreaName"
+          name="conservationAreaName"
+          required
+          class="form-input"
+        >
+          <option [ngValue]="null" disabled>Select an area</option>
+          <option *ngFor="let area of areas" [ngValue]="area">{{ area }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+        <input
+          type="date"
+          [(ngModel)]="editCustomer.reservationDate"
+          name="reservationDate"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Time</label>
+        <input
+          type="time"
+          [(ngModel)]="editCustomer.reservationTime"
+          name="reservationTime"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Party Size</label>
+        <input
+          type="number"
+          [(ngModel)]="editCustomer.partySize"
+          name="partySize"
+          min="1"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Update Customer Image</label>
+        <input type="file" (change)="onUpdateFileSelected($event)" class="form-input" />
+      </div>
+
+      <div class="modern-modal-buttons">
+        <button type="submit" class="modern-confirm-btn">Update</button>
+        <button type="button" class="modern-cancel-btn" (click)="cancelUpdate()">Close</button>
+      </div>
+    </form>
   </div>
-</section>
+</div>
