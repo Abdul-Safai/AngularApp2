@@ -54,12 +54,11 @@ export class ReservationListComponent implements OnInit {
   }
 
   getImageSrc(imageFileName: string | null | undefined): string {
-  if (imageFileName && imageFileName.trim() !== '') {
-    return 'http://localhost/AngularApp2/angularapp_api/uploads/' + imageFileName.trim();
+    if (imageFileName && imageFileName.trim() !== '') {
+      return 'http://localhost/AngularApp2/angularapp_api/uploads/' + imageFileName.trim();
+    }
+    return 'assets/images/placeholder.png';
   }
-  return 'assets/images/placeholder.png';
-}
-
 
   onImageError(event: any) {
     event.target.src = 'assets/images/placeholder.png';

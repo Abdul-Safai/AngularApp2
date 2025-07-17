@@ -1,8 +1,9 @@
 <section class="reservation-container">
   <h2 class="reservation-heading">Reservations</h2>
 
-  <!-- ✅ Add Reservation Button -->
-  <div class="add-reservation-wrapper">
+  <!-- Top Bar for About + Add -->
+  <div class="top-bar">
+    <button class="about-button" routerLink="/about-us">About Us</button>
     <button class="add-reservation-btn" [routerLink]="['/add-reservation']">+ Add Reservation</button>
   </div>
 
@@ -38,18 +39,12 @@
             <td>{{ reservation.total_spots - reservation.total_booked }}</td>
           </tr>
 
-          <!-- Customers -->
           <tr>
             <td colspan="6" class="customer-details">
               <strong>Customers:</strong>
               <ul>
                 <li *ngFor="let customer of reservation.customers" class="customer-row">
-                  <img
-                    class="customer-photo"
-                    [src]="getImageSrc(customer.imageFileName)"
-                    (error)="onImageError($event)"
-                    alt="{{ customer.customerName }}"
-                  />
+                  <img class="customer-photo" [src]="getImageSrc(customer.imageFileName)" (error)="onImageError($event)" alt="{{ customer.customerName }}" />
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
                   <div class="action-buttons">
                     <button class="update-btn" [routerLink]="['/update-reservation', customer.ID]">Update</button>

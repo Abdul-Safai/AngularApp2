@@ -10,12 +10,12 @@
 }
 
 .reservation-heading {
-  font-size: 2.2rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  border-bottom: 4px solid #007acc;
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: #2e86de;
+  border-bottom: 3px solid #2e86de;
   display: inline-block;
-  color: #007acc;
 }
 
 .table-wrapper {
@@ -34,7 +34,7 @@
 }
 
 .reservation-table th {
-  background: #007acc;
+  background: #2e86de;
   color: #fff;
   font-weight: 600;
 }
@@ -54,169 +54,143 @@
   font-size: 1rem;
 }
 
-/* ✅ Group row background */
+/* === Group row === */
 .group-row {
   background: #eef7fc;
   font-weight: 600;
   color: #005f99;
 }
 
-/* === Customer nested list === */
+/* === Customers === */
 .customer-details {
   background: #f9f9f9;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   border-top: 1px solid #ddd;
 }
 
 .customer-details strong {
   display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   color: #007acc;
-}
-
-.customer-details ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 .customer-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem 0;
+  padding: 0.6rem 0;
   border-top: 1px dashed #ddd;
 }
 
 .customer-row span {
-  font-size: 0.95rem;
+  flex: 1;
+  font-size: 1rem;
   color: #444;
 }
 
-.cancel-btn,
-.edit-btn {
-  background: #d9534f;
+.customer-photo {
+  width: 60px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid #007acc;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.update-btn {
+  background: #17a2b8;
   color: #fff;
   border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
-  margin-left: 8px;
-  transition: background 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.update-btn:hover {
+  background: #138496;
+}
+
+.cancel-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .cancel-btn:hover {
-  background: #c9302c;
+  background: #bd2130;
 }
 
-.edit-btn {
-  background: #5bc0de;
+/* === Add Reservation Button === */
+.add-reservation-wrapper {
+  text-align: right;
+  margin-bottom: 1.2rem;
 }
 
-.edit-btn:hover {
-  background: #31b0d5;
+.add-reservation-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* === Modern custom modal === */
-.custom-modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  animation: fadeIn 0.2s ease-in-out;
+.add-reservation-btn:hover {
+  background-color: #218838;
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modern-modal-box {
-  background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  text-align: left;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.modern-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 1rem;
-}
-
-.modern-modal-icon {
-  font-size: 1.8rem;
-  margin-right: 0.5rem;
-}
-
-.modern-modal-text {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.modern-modal-buttons {
+.top-bar {
   display: flex;
   justify-content: flex-end;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
 }
 
-.modern-modal-buttons button {
-  margin: 0 5px;
-  padding: 0.5rem 1.2rem;
+.add-reservation-btn {
+  background-color: #28a745;
+  color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s ease;
-}
-
-.modern-confirm-btn {
-  background: #5cb85c;
-  color: #fff;
-}
-
-.modern-confirm-btn:hover {
-  background: #4cae4c;
-}
-
-.modern-cancel-btn {
-  background: #e0e0e0;
-  color: #333;
-}
-
-.modern-cancel-btn:hover {
-  background: #d0d0d0;
-}
-
-/* ✅ Form styling in modal */
-.modern-modal-box .form-group {
-  margin-bottom: 1rem;
-}
-
-.modern-modal-box label {
-  display: block;
+  padding: 10px 16px;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.3rem;
-  color: #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.modern-modal-box input {
-  width: 100%;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.95rem;
+.add-reservation-btn:hover {
+  background-color: #218838;
 }
-/* === Filter Wrapper === */
+
+.about-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.about-button:hover {
+  background-color: #0056b3;
+}
+
+/* === Filter === */
 .filter-wrapper {
   margin-bottom: 1.5rem;
   display: flex;
@@ -243,105 +217,4 @@
   border-color: #007acc;
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.2);
-}
-/* === Customer actions: Cancel + Update === */
-.customer-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.4rem 0;
-  border-top: 1px dashed #ddd;
-}
-
-.customer-row span {
-  flex: 1;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-/* ✅ Buttons container */
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* ✅ Update button style */
-.update-btn {
-  background: #5bc0de; /* Light blue */
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
-}
-
-.update-btn:hover {
-  background: #31b0d5;
-}
-
-/* ✅ Cancel button style (existing) */
-.cancel-btn {
-  background: #d9534f;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s ease;
-}
-
-.cancel-btn:hover {
-  background: #c9302c;
-}
-.customer-photo {
-  width: 60px;
-  height: 70px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-right: 10px;
-  border: 2px solid #007acc;
-}
-
-/* Add to reservation-list.component.css */
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: bold;
-}
-
-.form-input {
-  width: 100%;
-  padding: 8px 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-.add-reservation-wrapper {
-  text-align: right;
-  margin-bottom: 1.2rem;
-}
-
-.add-reservation-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.add-reservation-btn:hover {
-  background-color: #218838;
 }
