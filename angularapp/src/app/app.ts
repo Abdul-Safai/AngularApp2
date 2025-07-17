@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
-import { ReservationListComponent } from './reservation-list/reservation-list.component';
-import { AddReservationComponent } from './add-reservation.component'; // ✅ Add your form!
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    ReservationListComponent, // ✅ Your table
-    AddReservationComponent   // ✅ Your form
-  ],
-  templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  imports: [RouterModule], // ✅ Needed for <router-outlet>
+  templateUrl: './app.html'
 })
-export class App {
-  protected title = 'angularapp';
-}
+export class AppComponent {} // ✅ You can name it AppComponent or App, just be consistent

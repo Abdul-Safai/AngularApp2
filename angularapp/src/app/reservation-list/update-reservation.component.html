@@ -1,0 +1,56 @@
+<div class="update-container" *ngIf="!loading">
+  <h2>📝 Update Reservation</h2>
+
+  <form (ngSubmit)="onSubmit()" class="update-form">
+
+    <div class="form-section image-preview">
+      <label>Current Customer Image:</label>
+  <img
+  class="customer-image"
+  [src]="customer.imageFileName && customer.imageFileName.trim() !== '' && customer.imageFileName !== 'placeholder.png'
+          ? 'http://localhost/AngularApp2/angularapp_api/uploads/' + customer.imageFileName.trim()
+          : 'assets/images/placeholder.png'"
+  alt="Customer Image"
+/>
+
+
+    </div>
+
+    <div class="form-section">
+      <label>Customer Name:</label>
+      <input type="text" [(ngModel)]="customer.customerName" name="customerName" />
+    </div>
+
+    <div class="form-section">
+      <label>Conservation Area:</label>
+      <select [(ngModel)]="customer.conservationAreaName" name="conservationAreaName">
+        <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
+      </select>
+    </div>
+
+    <div class="form-section">
+      <label>Reservation Date:</label>
+      <input type="date" [(ngModel)]="customer.reservationDate" name="reservationDate" />
+    </div>
+
+    <div class="form-section">
+      <label>Reservation Time:</label>
+      <input type="time" [(ngModel)]="customer.reservationTime" name="reservationTime" />
+    </div>
+
+    <div class="form-section">
+      <label>Party Size:</label>
+      <input type="number" [(ngModel)]="customer.partySize" name="partySize" min="1" />
+    </div>
+
+    <div class="form-section">
+      <label>Update Image:</label>
+      <input type="file" (change)="onUpdateFileSelected($event)" />
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">Update Reservation</button>
+      <button type="button" class="cancel-btn" (click)="router.navigate(['/'])">Cancel</button>
+    </div>
+  </form>
+</div>

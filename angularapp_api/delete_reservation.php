@@ -20,10 +20,32 @@ if ($id <= 0) {
   exit();
 }
 
+// ✅ Step 1: Get image file name from DB
+$stmt = $db->prepare("SELECT imageFileName FROM reservations WHERE ID = :id");
+$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+$imageFile = $stmt->fetchColumn();
+$stmt->closeCursor();
+
+// ✅ Step 2: Delete the reservation
 $query = "DELETE FROM reservations WHERE ID = :id";
 $statement = $db->prepare($query);
-$statement->bindValue(':id', $id);
-$statement->execute();
+$statement->bindValue(':id', $id, PDO::PARAM_INT);
+$success = $statement->execute();
 $statement->closeCursor();
-echo json_encode(['message' => '✅ Reservation cancelled']);
+
+// ✅ Step 3: Delete image file if not blank
+if ($success) {
+  if (!empty($imageFile)) {
+    $imagePath = __DIR__ . '/uploads/' . basename($imageFile);
+    if (is_file($imagePath)) {
+      unlink($imagePath);
+    }
+  }
+
+  echo json_encode(['message' => '✅ Reservation and image deleted']);
+} else {
+  http_response_code(500);
+  echo json_encode(['error' => 'Failed to delete reservation']);
+}
 ?>
