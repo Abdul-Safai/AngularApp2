@@ -1,6 +1,11 @@
 <section class="reservation-container">
   <h2 class="reservation-heading">Reservations</h2>
 
+  <!-- ✅ Add Reservation Button -->
+  <div class="add-reservation-wrapper">
+    <button class="add-reservation-btn" [routerLink]="['/add-reservation']">+ Add Reservation</button>
+  </div>
+
   <!-- Filter Bar -->
   <div class="filter-wrapper">
     <label for="filterArea" class="filter-label">Filter by Area:</label>
@@ -24,7 +29,6 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let reservation of filteredReservations">
-          <!-- Group row -->
           <tr class="group-row">
             <td>{{ reservation.conservationAreaName }}</td>
             <td>{{ reservation.reservationDate }}</td>

@@ -325,3 +325,23 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
+.add-reservation-wrapper {
+  text-align: right;
+  margin-bottom: 1.2rem;
+}
+
+.add-reservation-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-reservation-btn:hover {
+  background-color: #218838;
+}

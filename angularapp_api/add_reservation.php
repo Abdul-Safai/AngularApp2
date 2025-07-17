@@ -1,56 +1,64 @@
-<?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-// ✅ Handle preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(200);
-  exit();
+@Component({
+  selector: 'app-add-reservation',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './add-reservation.html',
+  styleUrls: ['./add-reservation.css']
+})
+export class AddReservationComponent {
+  reservation = {
+    customerName: '',
+    conservationAreaName: '',
+    reservationDate: '',
+    reservationTime: '',
+    partySize: 1
+  };
+
+  areas: string[] = [
+    'East Conservation Area',
+    'West Conservation Area',
+    'South Conservation Area',
+    'North Conservation Area'
+  ];
+
+  selectedFile: File | null = null;
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] || null;
+  }
+
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('customerName', this.reservation.customerName);
+    formData.append('conservationAreaName', this.reservation.conservationAreaName);
+    formData.append('reservationDate', this.reservation.reservationDate);
+    formData.append('reservationTime', this.reservation.reservationTime);
+    formData.append('partySize', this.reservation.partySize.toString());
+    formData.append('spots_booked', this.reservation.partySize.toString());
+    formData.append('total_spots', '30');
+
+    if (this.selectedFile) {
+      formData.append('customerImage', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.http.post('http://localhost/AngularApp2/angularapp_api/add_reservation.php', formData)
+      .subscribe({
+        next: () => {
+          alert('✅ Reservation added successfully!');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('❌ Failed to add reservation:', err);
+          alert('Something went wrong. Try again.');
+        }
+      });
+  }
 }
-
-require_once("database.php");
-
-$data = json_decode(file_get_contents("php://input"));
-
-// ✅ Safe trim
-$customerName = trim($data->customerName ?? '');
-$area = trim($data->conservationAreaName ?? '');
-$date = trim($data->reservationDate ?? '');
-$time = trim($data->reservationTime ?? '');
-$partySize = isset($data->partySize) ? intval($data->partySize) : 0;
-
-if (
-  $customerName === '' ||
-  $area === '' ||
-  $date === '' ||
-  $time === '' ||
-  $partySize <= 0
-) {
-  http_response_code(400);
-  echo json_encode(['error' => 'Missing required fields']);
-  exit();
-}
-
-$query = "INSERT INTO reservations 
-(customerName, conservationAreaName, reservationDate, reservationTime, partySize, spots_booked, total_spots) 
-VALUES (:customerName, :conservationAreaName, :reservationDate, :reservationTime, :partySize, :spots_booked, :total_spots)";
-
-$statement = $db->prepare($query);
-$statement->bindValue(':customerName', $customerName);
-$statement->bindValue(':conservationAreaName', $area);
-$statement->bindValue(':reservationDate', $date);
-$statement->bindValue(':reservationTime', $time);
-$statement->bindValue(':partySize', $partySize);
-$statement->bindValue(':spots_booked', $partySize); // ✅ spots_booked = partySize per row!
-$statement->bindValue(':total_spots', 30);
-
-try {
-  $statement->execute();
-  $statement->closeCursor();
-  echo json_encode(['message' => 'Reservation added successfully']);
-} catch (PDOException $e) {
-  http_response_code(500);
-  echo json_encode(['error' => $e->getMessage()]);
-}
-?>

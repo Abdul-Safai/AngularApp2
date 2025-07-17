@@ -62,6 +62,11 @@ if (isset($_FILES['customerImage']) && $_FILES['customerImage']['error'] === UPL
         }
         $imageFileName = $baseName;
     }
+} else {
+    // ✅ If the old image was deleted and no new image uploaded, fallback to placeholder
+    if (empty($imageFileName) || !file_exists(__DIR__ . '/uploads/' . $imageFileName)) {
+        $imageFileName = 'placeholder.png';
+    }
 }
 
 // ✅ Step 4: Update database

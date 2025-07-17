@@ -25,7 +25,7 @@ export class ReservationService {
   // ✅ Create a new reservation WITH FILE UPLOAD
   createReservation(formData: FormData) {
     return this.http.post(
-      'http://localhost/AngularApp2/angularapp_api/create_reservation.php', // ✅ POINT TO THE CORRECT FILE!
+      'http://localhost/AngularApp2/angularapp_api/create_reservation.php',
       formData
     ).pipe(
       tap(() => {
@@ -33,6 +33,17 @@ export class ReservationService {
         this.refreshNeeded.next();
       })
     );
+  }
+
+  // ✅ Add reservation (basic form submission)
+  addReservation(formData: FormData) {
+    return this.http.post('http://localhost/AngularApp2/angularapp_api/add_reservation.php', formData)
+      .pipe(
+        tap(() => {
+          console.log('✅ Emitting refresh after add!');
+          this.refreshNeeded.next();
+        })
+      );
   }
 
   // ✅ Delete a reservation by ID

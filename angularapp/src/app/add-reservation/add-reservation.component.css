@@ -1,0 +1,70 @@
+.reservation-form-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #f7f9fc;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* Blue for Submit/Add button */
+.button-group button[type="submit"] {
+  background-color: #007BFF; /* Bootstrap blue */
+}
+
+.button-group button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Green for Return to List */
+.button-group button[type="button"] {
+  background-color: #28a745; /* Bootstrap green */
+}
+
+.button-group button[type="button"]:hover {
+  background-color: #1c7c31;
+}
