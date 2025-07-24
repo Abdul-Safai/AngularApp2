@@ -1,0 +1,56 @@
+/* register.component.css */
+.register-container {
+ max-width: 400px;
+ margin: 80px auto;
+ background: #f5f7fa;
+ padding: 30px 40px;
+ border-radius: 16px;
+ box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-container h2 {
+ text-align: center;
+ margin-bottom: 20px;
+ color: #2980b9;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+ width: 100%;
+ padding: 12px;
+ margin-bottom: 16px;
+ border: 1px solid #ccc;
+ border-radius: 10px;
+ box-sizing: border-box;
+ font-size: 16px;
+}
+
+button {
+ width: 100%;
+ padding: 12px;
+ background-color: #2980b9;
+ color: white;
+ border: none;
+ border-radius: 10px;
+ font-size: 16px;
+ cursor: pointer;
+ transition: background 0.3s ease;
+}
+
+button:hover {
+ background-color: #1d5a85;
+}
+
+.error {
+ color: red;
+ text-align: center;
+ margin-bottom: 10px;
+}
+
+.success {
+ color: green;
+ text-align: center;
+ margin-bottom: 10px;
+}

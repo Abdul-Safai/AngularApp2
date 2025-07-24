@@ -17,12 +17,22 @@ export class AddReservationComponent {
   reservationDate = '';
   reservationTime = '';
   partySize: number = 1;
+  selectedImage!: File;
 
-  areas = ['Lakeview Park', 'Greenhill Trail', 'Sunset Woods', 'Maple Creek'];
+  alertMessage: string = ''; // ✅ added
+
+  areas = ['South Conservation Area', 'North Conservation Area', 'East Conservation Area', 'West Conservation Area'];
 
   constructor(private reservationService: ReservationService, private router: Router) {}
 
-  submitReservation() {
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedImage = input.files[0];
+    }
+  }
+
+  submitReservation(): void {
     const formData = new FormData();
     formData.append('customerName', this.customerName);
     formData.append('conservationAreaName', this.conservationAreaName);
@@ -30,16 +40,30 @@ export class AddReservationComponent {
     formData.append('reservationTime', this.reservationTime);
     formData.append('partySize', this.partySize.toString());
 
+    if (this.selectedImage) {
+      formData.append('customerImage', this.selectedImage, this.selectedImage.name);
+    }
+
     this.reservationService.createReservation(formData).subscribe({
       next: () => {
-        alert('Reservation successfully added!');
         this.router.navigate(['/']);
       },
-      error: err => console.error('Error creating reservation', err)
+      error: err => {
+        if (err.status === 409 && err.error?.error?.includes('Duplicate')) {
+          this.alertMessage = '❌ Duplicate reservation! Please choose a different time.';
+        } else {
+          this.alertMessage = '❌ Failed to create reservation. Please try again.';
+        }
+        console.error('❌ Error creating reservation', err);
+      }
     });
   }
 
-  goToList() {
+  closeAlert(): void {
+    this.alertMessage = '';
+  }
+
+  goToList(): void {
     this.router.navigate(['/']);
   }
 }

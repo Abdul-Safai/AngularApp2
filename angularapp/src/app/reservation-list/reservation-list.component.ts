@@ -64,13 +64,15 @@ export class ReservationListComponent implements OnInit {
     event.target.src = 'assets/images/placeholder.png';
   }
 
-  openConfirmCustomer(customerId: number) {
-    this.reservationIdToCancel = customerId;
+  // ✅ Called when cancel button is clicked
+  openConfirm(id: number): void {
+    this.reservationIdToCancel = id;
     this.showConfirm = true;
   }
 
-  confirmCancel() {
-    if (this.reservationIdToCancel) {
+  // ✅ Confirms the cancellation
+  confirmCancel(): void {
+    if (this.reservationIdToCancel !== null) {
       this.reservationService.deleteReservationById(this.reservationIdToCancel).subscribe({
         next: () => {
           console.log(`✅ Reservation ID ${this.reservationIdToCancel} cancelled`);
@@ -85,7 +87,8 @@ export class ReservationListComponent implements OnInit {
     }
   }
 
-  cancelConfirm() {
+  // ✅ Cancel button inside modal
+  cancelConfirm(): void {
     this.reservationIdToCancel = null;
     this.showConfirm = false;
   }

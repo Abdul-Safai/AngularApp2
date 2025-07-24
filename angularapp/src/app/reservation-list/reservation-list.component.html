@@ -48,7 +48,7 @@
                   <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
                   <div class="action-buttons">
                     <button class="update-btn" [routerLink]="['/update-reservation', customer.ID]">Update</button>
-                    <button class="cancel-btn" (click)="openConfirmCustomer(customer.ID)">Cancel</button>
+                    <button class="cancel-btn" (click)="openConfirm(customer.ID)">Cancel</button>
                   </div>
                 </li>
               </ul>
@@ -74,3 +74,14 @@
     </div>
   </div>
 </section>
+
+<div *ngIf="showConfirm" class="confirm-overlay">
+  <div class="confirm-modal">
+    <h3 class="modal-title">Cancel Reservation</h3>
+    <p class="modal-message">Are you sure you want to cancel this reservation?</p>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" (click)="cancelConfirm()">No</button>
+      <button class="btn btn-confirm" (click)="confirmCancel()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
