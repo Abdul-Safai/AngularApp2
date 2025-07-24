@@ -1,11 +1,12 @@
 <section class="reservation-container">
   <h2 class="reservation-heading">Reservations</h2>
 
-  <!-- Top Bar for About + Add -->
+  <!-- Top Bar for About + Add + Logout -->
   <div class="top-bar">
     <button class="about-button" routerLink="/about-us">About Us</button>
     <button class="add-reservation-btn" [routerLink]="['/add-reservation']">+ Add Reservation</button>
-  </div>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>  
 
   <!-- Filter Bar -->
   <div class="filter-wrapper">
@@ -74,14 +75,3 @@
     </div>
   </div>
 </section>
-
-<div *ngIf="showConfirm" class="confirm-overlay">
-  <div class="confirm-modal">
-    <h3 class="modal-title">Cancel Reservation</h3>
-    <p class="modal-message">Are you sure you want to cancel this reservation?</p>
-    <div class="modal-actions">
-      <button class="btn btn-cancel" (click)="cancelConfirm()">No</button>
-      <button class="btn btn-confirm" (click)="confirmCancel()">Yes, Cancel</button>
-    </div>
-  </div>
-</div>

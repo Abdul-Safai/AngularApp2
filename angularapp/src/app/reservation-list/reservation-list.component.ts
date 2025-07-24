@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ReservationService } from '../reservation.service';
 import { Reservation } from '../reservation';
 
@@ -20,7 +20,10 @@ export class ReservationListComponent implements OnInit {
   showConfirm = false;
   reservationIdToCancel: number | null = null;
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(
+    private reservationService: ReservationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadReservations();
@@ -64,13 +67,11 @@ export class ReservationListComponent implements OnInit {
     event.target.src = 'assets/images/placeholder.png';
   }
 
-  // ✅ Called when cancel button is clicked
   openConfirm(id: number): void {
     this.reservationIdToCancel = id;
     this.showConfirm = true;
   }
 
-  // ✅ Confirms the cancellation
   confirmCancel(): void {
     if (this.reservationIdToCancel !== null) {
       this.reservationService.deleteReservationById(this.reservationIdToCancel).subscribe({
@@ -87,9 +88,13 @@ export class ReservationListComponent implements OnInit {
     }
   }
 
-  // ✅ Cancel button inside modal
   cancelConfirm(): void {
     this.reservationIdToCancel = null;
     this.showConfirm = false;
+  }
+
+  logout(): void {
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
