@@ -13,7 +13,7 @@ import { ReservationService } from '../reservation.service';
 })
 export class UpdateReservationComponent implements OnInit {
   customer: any = {};
-  originalCustomer: any = {}; // ✅ To compare for partial updates
+  originalCustomer: any = {};
   areas: string[] = [];
   selectedUpdateFile: File | null = null;
   loading: boolean = true;
@@ -27,7 +27,7 @@ export class UpdateReservationComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
       return;
     }
 
@@ -52,10 +52,8 @@ export class UpdateReservationComponent implements OnInit {
 
   onSubmit(): void {
     const formData = new FormData();
-
     formData.append('ID', this.customer.ID);
 
-    // ✅ Only append fields if they are different or newly provided
     if (
       this.customer.customerName &&
       this.customer.customerName.trim() !== this.originalCustomer.customerName
@@ -104,12 +102,16 @@ export class UpdateReservationComponent implements OnInit {
     this.reservationService.updateReservation(formData).subscribe({
       next: () => {
         alert('✅ Reservation updated successfully!');
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: err => {
         alert('❌ Failed to update. Try again.');
         console.error(err);
       }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/home']);
   }
 }

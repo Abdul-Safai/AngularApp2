@@ -2,18 +2,15 @@
   <h2>📝 Update Reservation</h2>
 
   <form (ngSubmit)="onSubmit()" class="update-form">
-
     <div class="form-section image-preview">
       <label>Current Customer Image:</label>
-  <img
-  class="customer-image"
-  [src]="customer.imageFileName && customer.imageFileName.trim() !== '' && customer.imageFileName !== 'placeholder.png'
-          ? 'http://localhost/AngularApp2/angularapp_api/uploads/' + customer.imageFileName.trim()
-          : 'assets/images/placeholder.png'"
-  alt="Customer Image"
-/>
-
-
+      <img
+        class="customer-image"
+        [src]="customer.imageFileName && customer.imageFileName.trim() !== '' && customer.imageFileName !== 'placeholder.png'
+                ? 'http://localhost/AngularApp2/angularapp_api/uploads/' + customer.imageFileName.trim()
+                : 'assets/images/placeholder.png'"
+        alt="Customer Image"
+      />
     </div>
 
     <div class="form-section">
@@ -50,7 +47,7 @@
 
     <div class="form-actions">
       <button type="submit" class="submit-btn">Update Reservation</button>
-      <button type="button" class="cancel-btn" (click)="router.navigate(['/'])">Cancel</button>
+      <button type="button" class="cancel-btn" (click)="goBack()">Cancel</button>
     </div>
   </form>
 </div>
