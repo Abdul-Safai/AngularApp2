@@ -1,37 +1,87 @@
-<div class="reservation-form-container">
-  <h2 class="form-title">Add a New Reservation</h2>
+<div class="add-container">
+  <h2 class="form-title">🆕 Add Reservation</h2>
 
-  <form (ngSubmit)="submitReservation()" #reservationForm="ngForm" enctype="multipart/form-data">
-    <label for="customerName">Customer Name:</label>
-    <input type="text" id="customerName" [(ngModel)]="customerName" name="customerName" required />
+  <!-- Alert Message -->
+  <div class="alert-box" *ngIf="alertMessage">
+    <span class="alert-text">{{ alertMessage }}</span>
+    <button class="close-alert" (click)="closeAlert()">×</button>
+  </div>
 
-    <label for="conservationAreaName">Conservation Area:</label>
-    <select id="conservationAreaName" [(ngModel)]="conservationAreaName" name="conservationAreaName" required>
-      <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
-    </select>
+  <form (ngSubmit)="submitReservation()" class="reservation-form">
+    <!-- Name -->
+    <div class="form-section">
+      <label>Customer Name:</label>
+      <input
+        type="text"
+        [(ngModel)]="customerName"
+        name="customerName"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="[a-zA-Z\s]+"
+        placeholder="Enter full name"
+      />
+    </div>
 
-    <label for="reservationDate">Date:</label>
-    <input type="date" id="reservationDate" [(ngModel)]="reservationDate" name="reservationDate" required />
+    <!-- Conservation Area -->
+    <div class="form-section">
+      <label>Conservation Area:</label>
+      <select [(ngModel)]="conservationAreaName" name="conservationAreaName" required>
+        <option value="" disabled selected>Select Area</option>
+        <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
+      </select>
+    </div>
 
-    <label for="reservationTime">Time:</label>
-    <input type="time" id="reservationTime" [(ngModel)]="reservationTime" name="reservationTime" required />
+    <!-- Date -->
+    <div class="form-section">
+      <label>Reservation Date:</label>
+      <input
+        type="date"
+        [(ngModel)]="reservationDate"
+        name="reservationDate"
+        required
+        max="{{ today }}"
+      />
+    </div>
 
-    <label for="partySize">Party Size:</label>
-    <input type="number" id="partySize" [(ngModel)]="partySize" name="partySize" min="1" required />
+    <!-- Time -->
+    <div class="form-section">
+      <label>Reservation Time:</label>
+      <input
+        type="time"
+        [(ngModel)]="reservationTime"
+        name="reservationTime"
+        required
+      />
+    </div>
 
-    <label for="customerImage">Customer Image:</label>
-    <input type="file" id="customerImage" (change)="onFileSelected($event)" />
+    <!-- Party Size -->
+    <div class="form-section">
+      <label>Party Size:</label>
+      <input
+        type="number"
+        [(ngModel)]="partySize"
+        name="partySize"
+        required
+        min="1"
+        max="30"
+      />
+    </div>
 
-    <div class="button-group">
-      <button type="submit">Add Reservation</button>
-      <button type="button" (click)="goToList()">Return to List</button>
+    <!-- Image -->
+    <div class="form-section">
+      <label>Customer Image:</label>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".jpg, .jpeg, .png, .webp"
+      />
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">Submit Reservation</button>
+      <button type="button" class="cancel-btn" (click)="goToList()">Cancel</button>
     </div>
   </form>
-</div>
-<div *ngIf="alertMessage" class="alert-overlay">
-  <div class="alert-modal">
-    <h3 class="alert-title">⚠️ Notice</h3>
-    <p class="alert-text">{{ alertMessage }}</p>
-    <button class="btn-alert" (click)="closeAlert()">OK</button>
-  </div>
 </div>

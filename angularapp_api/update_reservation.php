@@ -10,15 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once("database.php");
 
-$id = isset($_POST['ID']) ? intval($_POST['ID']) : 0;
+function isValidImage($filename) {
+    $allowedExt = ['jpg', 'jpeg', 'png', 'webp'];
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    return in_array($ext, $allowedExt);
+}
 
+// Validate ID
+$id = isset($_POST['ID']) ? intval($_POST['ID']) : 0;
 if ($id <= 0) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid reservation ID']);
     exit();
 }
 
-// ✅ Step 1: Fetch existing reservation
+// Fetch existing reservation
 $stmt = $db->prepare("SELECT * FROM reservations WHERE ID = :id");
 $stmt->bindValue(':id', $id);
 $stmt->execute();
@@ -31,71 +37,74 @@ if (!$existing) {
     exit();
 }
 
-// ✅ Step 2: Use existing values if not provided
-$customerName = isset($_POST['customerName']) ? trim($_POST['customerName']) : $existing['customerName'];
-$area = isset($_POST['conservationAreaName']) ? trim($_POST['conservationAreaName']) : $existing['conservationAreaName'];
-$date = isset($_POST['reservationDate']) ? trim($_POST['reservationDate']) : $existing['reservationDate'];
-$time = isset($_POST['reservationTime']) ? trim($_POST['reservationTime']) : $existing['reservationTime'];
+// Collect and sanitize fields
+$customerName = trim($_POST['customerName'] ?? $existing['customerName']);
+$conservationAreaName = trim($_POST['conservationAreaName'] ?? $existing['conservationAreaName']);
+$reservationDate = trim($_POST['reservationDate'] ?? $existing['reservationDate']);
+$reservationTime = trim($_POST['reservationTime'] ?? $existing['reservationTime']);
 $partySize = isset($_POST['partySize']) ? intval($_POST['partySize']) : intval($existing['partySize']);
 
-// ✅ Step 3: Handle image upload
-$imageFileName = $existing['imageFileName'] ?: 'placeholder.png';
+if (
+    empty($customerName) || !preg_match('/^[A-Za-z\s]+$/', $customerName) ||
+    empty($conservationAreaName) || $partySize <= 0 || $partySize > 30
+) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid input. Check name or party size.']);
+    exit();
+}
+
+// Handle image upload
+$imageFileName = $existing['imageFileName'] ?? 'placeholder.png';
 
 if (isset($_FILES['customerImage']) && $_FILES['customerImage']['error'] === UPLOAD_ERR_OK) {
+    if (!isValidImage($_FILES['customerImage']['name'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Unsupported image format.']);
+        exit();
+    }
+
     $uploadDir = __DIR__ . '/uploads/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
     }
 
-    $tmpName = $_FILES['customerImage']['tmp_name'];
-    $baseName = basename($_FILES['customerImage']['name']);
-    $baseName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $baseName);
-    $targetPath = $uploadDir . $baseName;
+    $safeName = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', basename($_FILES['customerImage']['name']));
+    $targetPath = $uploadDir . $safeName;
 
-    if (move_uploaded_file($tmpName, $targetPath)) {
-        // ✅ Delete old image unless it's blank or placeholder
+    if (move_uploaded_file($_FILES['customerImage']['tmp_name'], $targetPath)) {
         if (!empty($existing['imageFileName']) && $existing['imageFileName'] !== 'placeholder.png') {
             $oldPath = $uploadDir . basename($existing['imageFileName']);
             if (file_exists($oldPath)) {
                 unlink($oldPath);
             }
         }
-        $imageFileName = $baseName;
-    }
-} else {
-    // ✅ If the old image was deleted and no new image uploaded, fallback to placeholder
-    if (empty($imageFileName) || !file_exists(__DIR__ . '/uploads/' . $imageFileName)) {
-        $imageFileName = 'placeholder.png';
+        $imageFileName = $safeName;
     }
 }
 
-// ✅ Step 4: Update database
+// Update DB
 try {
-    $query = "UPDATE reservations 
-              SET customerName = :customerName,
-                  conservationAreaName = :conservationAreaName,
-                  reservationDate = :reservationDate,
-                  reservationTime = :reservationTime,
-                  partySize = :partySize,
-                  spots_booked = :partySize,
-                  imageFileName = :imageFileName
-              WHERE ID = :id";
+    $stmt = $db->prepare("UPDATE reservations SET 
+        customerName = :customerName,
+        conservationAreaName = :area,
+        reservationDate = :date,
+        reservationTime = :time,
+        partySize = :partySize,
+        spots_booked = :partySize,
+        imageFileName = :imageFileName
+        WHERE ID = :id");
 
-    $statement = $db->prepare($query);
-    $statement->bindValue(':customerName', $customerName);
-    $statement->bindValue(':conservationAreaName', $area);
-    $statement->bindValue(':reservationDate', $date);
-    $statement->bindValue(':reservationTime', $time);
-    $statement->bindValue(':partySize', $partySize);
-    $statement->bindValue(':imageFileName', $imageFileName);
-    $statement->bindValue(':id', $id);
+    $stmt->bindValue(':customerName', $customerName);
+    $stmt->bindValue(':area', $conservationAreaName);
+    $stmt->bindValue(':date', $reservationDate);
+    $stmt->bindValue(':time', $reservationTime);
+    $stmt->bindValue(':partySize', $partySize);
+    $stmt->bindValue(':imageFileName', $imageFileName);
+    $stmt->bindValue(':id', $id);
+    $stmt->execute();
 
-    $statement->execute();
-    $statement->closeCursor();
-
-    echo json_encode(['message' => '✅ Reservation updated successfully']);
+    echo json_encode(['message' => '✅ Reservation updated']);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }
-?>

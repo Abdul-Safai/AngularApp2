@@ -1,4 +1,4 @@
-.update-container {
+.add-container {
   max-width: 700px;
   margin: 40px auto;
   background: #fff;
@@ -8,41 +8,71 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-.update-container h2 {
+/* Form Heading */
+.form-title {
   text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
   margin-bottom: 25px;
   color: #2c3e50;
 }
 
-.update-form .form-section {
+/* Each form field block */
+.reservation-form .form-section {
   margin-bottom: 20px;
 }
 
-.update-form label {
+.reservation-form label {
   display: block;
   font-weight: bold;
   margin-bottom: 6px;
   color: #333;
 }
 
-.update-form input,
-.update-form select {
+/* Input and Select Styling */
+.reservation-form input,
+.reservation-form select {
   width: 100%;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   box-sizing: border-box;
+  background: #f9f9f9;
 }
 
-.form-section.image-preview img.customer-image {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 0%;
-  border: 2px solid #ccc;
+/* File input */
+.reservation-form input[type="file"] {
+  padding: 8px;
+  background-color: #fff;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
 }
 
+/* Alert Box */
+.alert-box {
+  background-color: #fff4f4;
+  border-left: 4px solid #d32f2f;
+  color: #b30000;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-alert {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #b30000;
+  cursor: pointer;
+}
+
+/* Buttons */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -71,13 +101,15 @@
 }
 
 .cancel-btn {
-  background-color: #e74c3c;
+  background-color: #c82c1b;
   color: white;
 }
 
 .cancel-btn:hover {
   background-color: #c0392b;
 }
+
+/* Match update form hiding header */
 .main-header {
   display: none !important;
 }

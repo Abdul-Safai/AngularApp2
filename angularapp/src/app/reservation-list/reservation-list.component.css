@@ -329,3 +329,86 @@
   background-color: #5548f3;
   transform: translateY(-2px);
 }
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.dialog-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 25px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.3s ease-out;
+}
+
+.dialog-header {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.dialog-message {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dialog-confirm,
+.dialog-cancel {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.dialog-confirm {
+  background: #d32f2f;
+  color: #fff;
+}
+
+.dialog-confirm:hover {
+  background: #b71c1c;
+}
+
+.dialog-cancel {
+  background: #4db3d8;
+  color: #fdf8f8;
+}
+
+.dialog-cancel:hover {
+  background: #06a5e9;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

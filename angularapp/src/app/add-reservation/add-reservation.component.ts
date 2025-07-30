@@ -1,3 +1,4 @@
+// add-reservation.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -19,9 +20,15 @@ export class AddReservationComponent {
   partySize: number = 1;
   selectedImage!: File;
 
-  alertMessage: string = ''; // ✅ added
+  alertMessage: string = '';
+  today: string = new Date().toISOString().split('T')[0]; // ✅ Added for max date
 
-  areas = ['South Conservation Area', 'North Conservation Area', 'East Conservation Area', 'West Conservation Area'];
+  areas = [
+    'South Conservation Area',
+    'North Conservation Area',
+    'East Conservation Area',
+    'West Conservation Area'
+  ];
 
   constructor(private reservationService: ReservationService, private router: Router) {}
 
@@ -46,7 +53,7 @@ export class AddReservationComponent {
 
     this.reservationService.createReservation(formData).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']); // ✅ Navigate to reservation list
       },
       error: err => {
         if (err.status === 409 && err.error?.error?.includes('Duplicate')) {
@@ -64,6 +71,6 @@ export class AddReservationComponent {
   }
 
   goToList(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']); // ✅ Fixed destination
   }
 }

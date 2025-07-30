@@ -60,18 +60,18 @@
     </table>
   </div>
 
-  <!-- Cancel Modal -->
-  <div *ngIf="showConfirm" class="custom-modal">
-    <div class="modern-modal-box">
-      <div class="modern-modal-header">
-        <div class="modern-modal-icon">⚠️</div>
-        <h3>Confirm Cancellation</h3>
-      </div>
-      <p>Are you sure you want to cancel this customer’s reservation?</p>
-      <div class="modern-modal-buttons">
-        <button class="modern-confirm-btn" (click)="confirmCancel()">Yes, Cancel</button>
-        <button class="modern-cancel-btn" (click)="cancelConfirm()">No, Keep It</button>
-      </div>
+<!-- Cancel Confirmation Modal -->
+<div *ngIf="showConfirm" class="dialog-overlay">
+  <div class="dialog-box">
+    <div class="dialog-header">
+      ⚠️ Confirm Cancellation
+    </div>
+    <div class="dialog-message">
+      Are you sure you want to cancel this customer’s reservation?
+    </div>
+    <div class="dialog-actions">
+      <button class="dialog-confirm" (click)="confirmCancel()">Yes, Cancel</button>
+      <button class="dialog-cancel" (click)="cancelConfirm()">No, Keep It</button>
     </div>
   </div>
-</section>
+</div>
