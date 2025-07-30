@@ -22,13 +22,42 @@ if (!$data || empty($data->email) || empty($data->password)) {
 $email = $data->email;
 $password = $data->password;
 
+// Fetch user
 $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':email', $email);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user && password_verify($password, $user['password'])) {
+if (!$user) {
+  http_response_code(401);
+  echo json_encode(["success" => false, "error" => "Invalid email or password"]);
+  exit();
+}
+
+// Check lockout status
+$failedAttempts = (int)$user['failed_attempts'];
+$lastFailed = $user['last_failed_login'];
+$now = new DateTime();
+
+if ($failedAttempts >= 3 && $lastFailed) {
+  $lastFailedTime = new DateTime($lastFailed);
+  $interval = $lastFailedTime->diff($now);
+  if ($interval->i < 5) {
+    http_response_code(403);
+    echo json_encode(["success" => false, "error" => "Too many failed attempts. Please wait 5 minute(s) before trying again."]);
+    exit();
+  }
+}
+
+// Check password
+if (password_verify($password, $user['password'])) {
+  // ✅ Reset failed attempts on success
+  $resetQuery = "UPDATE users SET failed_attempts = 0, last_failed_login = NULL WHERE id = :id";
+  $resetStmt = $db->prepare($resetQuery);
+  $resetStmt->bindValue(':id', $user['id']);
+  $resetStmt->execute();
+
   echo json_encode([
     "success" => true,
     "message" => "Login successful",
@@ -39,6 +68,12 @@ if ($user && password_verify($password, $user['password'])) {
     ]
   ]);
 } else {
+  // ❌ Increment failed attempts
+  $updateQuery = "UPDATE users SET failed_attempts = failed_attempts + 1, last_failed_login = NOW() WHERE id = :id";
+  $updateStmt = $db->prepare($updateQuery);
+  $updateStmt->bindValue(':id', $user['id']);
+  $updateStmt->execute();
+
   http_response_code(401);
   echo json_encode(["success" => false, "error" => "Invalid email or password"]);
 }
