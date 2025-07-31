@@ -23,6 +23,19 @@
       />
     </div>
 
+    <!-- Email -->
+    <div class="form-section">
+      <label>Email Address:</label>
+      <input
+        type="email"
+        [(ngModel)]="customerEmail"
+        name="customerEmail"
+        required
+        maxlength="100"
+        placeholder="Enter email"
+      />
+    </div>
+
     <!-- Conservation Area -->
     <div class="form-section">
       <label>Conservation Area:</label>
@@ -40,7 +53,7 @@
         [(ngModel)]="reservationDate"
         name="reservationDate"
         required
-        max="{{ today }}"
+        [min]="today"
       />
     </div>
 

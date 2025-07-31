@@ -15,7 +15,12 @@ import { Reservation } from '../reservation';
 export class ReservationListComponent implements OnInit {
   reservations: Reservation[] = [];
   filterArea: string = '';
-  areas: string[] = ['East Conservation Area', 'West Conservation Area', 'South Conservation Area', 'North Conservation Area'];
+  areas: string[] = [
+    'East Conservation Area',
+    'West Conservation Area',
+    'South Conservation Area',
+    'North Conservation Area'
+  ];
 
   showConfirm = false;
   reservationIdToCancel: number | null = null;
@@ -44,10 +49,11 @@ export class ReservationListComponent implements OnInit {
           ...res,
           total_booked: Number(res.total_booked),
           total_spots: Number(res.total_spots),
-          customers: res.customers?.map((cust: any) => ({
+          customers: (res.customers || []).map((cust: any) => ({
             ...cust,
-            imageFileName: cust.imageFileName || ''
-          })) || []
+            imageFileName: cust.imageFileName || '',
+            emailAddress: cust.emailAddress || '' // ✅ Ensure email is mapped
+          }))
         }));
       },
       error: (error) => {

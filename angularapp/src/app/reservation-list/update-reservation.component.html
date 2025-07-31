@@ -15,29 +15,34 @@
 
     <div class="form-section">
       <label>Customer Name:</label>
-      <input type="text" [(ngModel)]="customer.customerName" name="customerName" />
+      <input type="text" [(ngModel)]="customer.customerName" name="customerName" required />
+    </div>
+
+    <div class="form-section">
+      <label>Email Address:</label>
+      <input type="email" [(ngModel)]="customer.emailAddress" name="emailAddress" required />
     </div>
 
     <div class="form-section">
       <label>Conservation Area:</label>
-      <select [(ngModel)]="customer.conservationAreaName" name="conservationAreaName">
+      <select [(ngModel)]="customer.conservationAreaName" name="conservationAreaName" required>
         <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
       </select>
     </div>
 
     <div class="form-section">
       <label>Reservation Date:</label>
-      <input type="date" [(ngModel)]="customer.reservationDate" name="reservationDate" />
+      <input type="date" [(ngModel)]="customer.reservationDate" name="reservationDate" [min]="today" required />
     </div>
 
     <div class="form-section">
       <label>Reservation Time:</label>
-      <input type="time" [(ngModel)]="customer.reservationTime" name="reservationTime" />
+      <input type="time" [(ngModel)]="customer.reservationTime" name="reservationTime" required />
     </div>
 
     <div class="form-section">
       <label>Party Size:</label>
-      <input type="number" [(ngModel)]="customer.partySize" name="partySize" min="1" />
+      <input type="number" [(ngModel)]="customer.partySize" name="partySize" min="1" max="30" required />
     </div>
 
     <div class="form-section">

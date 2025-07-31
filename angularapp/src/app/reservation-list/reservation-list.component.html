@@ -46,7 +46,16 @@
               <ul>
                 <li *ngFor="let customer of reservation.customers" class="customer-row">
                   <img class="customer-photo" [src]="getImageSrc(customer.imageFileName)" (error)="onImageError($event)" alt="{{ customer.customerName }}" />
-                  <span>{{ customer.customerName }} - {{ customer.spots_booked }} spots</span>
+                  <span>
+                    {{ customer.customerName }} - {{ customer.spots_booked }} spots
+                    <br />
+                    <a *ngIf="customer.emailAddress" [href]="'mailto:' + customer.emailAddress" class="email-link">
+                      📧 {{ customer.emailAddress }}
+                    </a>
+                    <span *ngIf="!customer.emailAddress" class="email-link muted">
+                      📧 No email provided
+                    </span>
+                  </span>
                   <div class="action-buttons">
                     <button class="update-btn" [routerLink]="['/update-reservation', customer.ID]">Update</button>
                     <button class="cancel-btn" (click)="openConfirm(customer.ID)">Cancel</button>
@@ -60,18 +69,19 @@
     </table>
   </div>
 
-<!-- Cancel Confirmation Modal -->
-<div *ngIf="showConfirm" class="dialog-overlay">
-  <div class="dialog-box">
-    <div class="dialog-header">
-      ⚠️ Confirm Cancellation
-    </div>
-    <div class="dialog-message">
-      Are you sure you want to cancel this customer’s reservation?
-    </div>
-    <div class="dialog-actions">
-      <button class="dialog-confirm" (click)="confirmCancel()">Yes, Cancel</button>
-      <button class="dialog-cancel" (click)="cancelConfirm()">No, Keep It</button>
+  <!-- Cancel Confirmation Modal -->
+  <div *ngIf="showConfirm" class="dialog-overlay">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        ⚠️ Confirm Cancellation
+      </div>
+      <div class="dialog-message">
+        Are you sure you want to cancel this customer’s reservation?
+      </div>
+      <div class="dialog-actions">
+        <button class="dialog-confirm" (click)="confirmCancel()">Yes, Cancel</button>
+        <button class="dialog-cancel" (click)="cancelConfirm()">No, Keep It</button>
+      </div>
     </div>
   </div>
-</div>
+</section>

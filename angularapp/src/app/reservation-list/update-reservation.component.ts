@@ -17,6 +17,8 @@ export class UpdateReservationComponent implements OnInit {
   areas: string[] = [];
   selectedUpdateFile: File | null = null;
   loading: boolean = true;
+  successMessage: string = '';
+  today: string = new Date().toISOString().split('T')[0]; // for min date
 
   constructor(
     private route: ActivatedRoute,
@@ -54,39 +56,27 @@ export class UpdateReservationComponent implements OnInit {
     const formData = new FormData();
     formData.append('ID', this.customer.ID);
 
-    if (
-      this.customer.customerName &&
-      this.customer.customerName.trim() !== this.originalCustomer.customerName
-    ) {
+    if (this.customer.customerName && this.customer.customerName.trim() !== this.originalCustomer.customerName) {
       formData.append('customerName', this.customer.customerName.trim());
     }
 
-    if (
-      this.customer.conservationAreaName &&
-      this.customer.conservationAreaName !== this.originalCustomer.conservationAreaName
-    ) {
+    if (this.customer.emailAddress && this.customer.emailAddress !== this.originalCustomer.emailAddress) {
+      formData.append('emailAddress', this.customer.emailAddress.trim());
+    }
+
+    if (this.customer.conservationAreaName !== this.originalCustomer.conservationAreaName) {
       formData.append('conservationAreaName', this.customer.conservationAreaName);
     }
 
-    if (
-      this.customer.reservationDate &&
-      this.customer.reservationDate !== this.originalCustomer.reservationDate &&
-      this.customer.reservationDate.match(/^\d{4}-\d{2}-\d{2}$/)
-    ) {
+    if (this.customer.reservationDate !== this.originalCustomer.reservationDate) {
       formData.append('reservationDate', this.customer.reservationDate);
     }
 
-    if (
-      this.customer.reservationTime &&
-      this.customer.reservationTime !== this.originalCustomer.reservationTime
-    ) {
+    if (this.customer.reservationTime !== this.originalCustomer.reservationTime) {
       formData.append('reservationTime', this.customer.reservationTime);
     }
 
-    if (
-      this.customer.partySize &&
-      this.customer.partySize !== this.originalCustomer.partySize
-    ) {
+    if (this.customer.partySize !== this.originalCustomer.partySize) {
       formData.append('partySize', this.customer.partySize.toString());
     }
 
@@ -100,9 +90,9 @@ export class UpdateReservationComponent implements OnInit {
     }
 
     this.reservationService.updateReservation(formData).subscribe({
-      next: () => {
-        alert('✅ Reservation updated successfully!');
-        this.router.navigate(['/home']);
+      next: (res: any) => {
+        this.successMessage = '✅ Reservation updated successfully. Confirmation email sent!';
+        setTimeout(() => this.router.navigate(['/home']), 3000);
       },
       error: err => {
         alert('❌ Failed to update. Try again.');

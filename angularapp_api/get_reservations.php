@@ -21,7 +21,7 @@ $statement->closeCursor();
 
 foreach ($groups as &$group) {
   $detailsQuery = "
-    SELECT ID, customerName, spots_booked, imageFileName
+    SELECT ID, customerName, emailAddress, spots_booked, imageFileName
     FROM reservations
     WHERE conservationAreaName = :area
       AND reservationDate = :date
@@ -38,3 +38,4 @@ foreach ($groups as &$group) {
 
 echo json_encode($groups);
 ?>
+

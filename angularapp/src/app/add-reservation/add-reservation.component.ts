@@ -1,4 +1,3 @@
-// add-reservation.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -14,6 +13,7 @@ import { ReservationService } from '../reservation.service';
 })
 export class AddReservationComponent {
   customerName = '';
+  customerEmail = ''; // ✅ Collecting customer email
   conservationAreaName = '';
   reservationDate = '';
   reservationTime = '';
@@ -21,7 +21,8 @@ export class AddReservationComponent {
   selectedImage!: File;
 
   alertMessage: string = '';
-  today: string = new Date().toISOString().split('T')[0]; // ✅ Added for max date
+  successMessage: string = '';
+  today: string = new Date().toISOString().split('T')[0];
 
   areas = [
     'South Conservation Area',
@@ -30,7 +31,10 @@ export class AddReservationComponent {
     'West Conservation Area'
   ];
 
-  constructor(private reservationService: ReservationService, private router: Router) {}
+  constructor(
+    private reservationService: ReservationService,
+    private router: Router
+  ) {}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -42,6 +46,7 @@ export class AddReservationComponent {
   submitReservation(): void {
     const formData = new FormData();
     formData.append('customerName', this.customerName);
+    formData.append('customerEmail', this.customerEmail);
     formData.append('conservationAreaName', this.conservationAreaName);
     formData.append('reservationDate', this.reservationDate);
     formData.append('reservationTime', this.reservationTime);
@@ -52,14 +57,15 @@ export class AddReservationComponent {
     }
 
     this.reservationService.createReservation(formData).subscribe({
-      next: () => {
-        this.router.navigate(['/home']); // ✅ Navigate to reservation list
+      next: (response: any) => {
+        this.successMessage = '✅ Reservation created successfully. Confirmation email sent!';
+        setTimeout(() => this.router.navigate(['/home']), 3000); // Wait 3s before redirect
       },
       error: err => {
         if (err.status === 409 && err.error?.error?.includes('Duplicate')) {
           this.alertMessage = '❌ Duplicate reservation! Please choose a different time.';
         } else {
-          this.alertMessage = '❌ Failed to create reservation. Please try again.';
+          this.alertMessage = '❌ Failed to create reservation. Please provide all required information.';
         }
         console.error('❌ Error creating reservation', err);
       }
@@ -68,9 +74,10 @@ export class AddReservationComponent {
 
   closeAlert(): void {
     this.alertMessage = '';
+    this.successMessage = '';
   }
 
   goToList(): void {
-    this.router.navigate(['/home']); // ✅ Fixed destination
+    this.router.navigate(['/home']);
   }
 }

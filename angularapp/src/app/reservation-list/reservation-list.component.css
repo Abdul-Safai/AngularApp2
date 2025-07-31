@@ -401,6 +401,9 @@
 .dialog-cancel:hover {
   background: #06a5e9;
 }
+.customer-row div {
+  line-height: 1.4;
+}
 
 @keyframes slideIn {
   from {
