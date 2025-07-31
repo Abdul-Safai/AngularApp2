@@ -1,73 +1,112 @@
-## ✅ Testing Summary
+<h2>✅ Testing Summary</h2>
 
-**Make the Add Reservation Form styled the same as the Update Reservation Form.**  
-***Done*** — Styling consistency achieved between Add and Update forms.
+<ul>
+  <li><strong>Make the Add Reservation Form styled the same as the Update Reservation Form.</strong><br>
+    <em>Done</em> — Styling consistency achieved between Add and Update forms.
+  </li>
 
-**Test adding a reservation with valid data.**  
-***Done*** — Reservation and customer record created successfully.
+  <li><strong>Test adding a reservation with valid data.</strong><br>
+    <em>Done</em> — Reservation and customer record created successfully.
+  </li>
 
-**Test adding a reservation with empty data.**  
-***Done*** — No record added. Page remains on Add Reservation without submitting.
+  <li><strong>Test adding a reservation with empty data.</strong><br>
+    <em>Done</em> — No record added. Page remains on Add Reservation without submitting.
+  </li>
 
-**Test adding a duplicate customer (same email or image).**  
-***Done*** — Duplicate allowed; however, image was not duplicated in `uploads` folder.  
-***Action Item:*** Prevent adding reservations with duplicate customer emails or image files.  
-***Action Item:*** Also prevent these duplicates during update.  
-***Testing suggestions:*** Preventing the image upload until form validation passed resolved this issue for Add Reservation. Update functionality now correctly prevents duplicate entries.  
-**Issue:** Cancel operation during update still triggers changes.  
-***Action Item:*** Fix cancel behavior to ensure no data/image is modified when Cancel is clicked.
+  <li><strong>Test adding a duplicate customer (same email or image).</strong><br>
+    <em>Done</em> — Duplicate allowed; however, image was not duplicated in uploads folder.<br>
+    <strong>Action Item:</strong> Prevent adding reservations with duplicate customer emails or image files.<br>
+    <strong>Testing suggestions:</strong> Preventing the image upload until form validation passed resolved this issue for Add Reservation. Update functionality now correctly prevents duplicate entries.
+  </li>
 
-**Test adding an invalid image format.**  
-***Done*** — Invalid image format accepted and uploaded.  
-***Action Item:*** Restrict to valid formats (e.g., `.jpg`, `.jpeg`, `.png`, `.webp`).
+  <li><strong>Test adding an invalid image format.</strong><br>
+    <em>Done</em> — Invalid image format accepted and uploaded.<br>
+    <strong>Action Item:</strong> Restrict to valid formats (.jpg, .jpeg, .png, .webp).
+  </li>
 
-**Add a confirmation dialog before deleting a customer reservation.**  
-***Done*** — Confirmation modal appears and works properly.
+  <li><strong>Add a confirmation dialog before deleting a customer reservation.</strong><br>
+    <em>Done</em> — Confirmation modal appears and works properly.
+  </li>
 
-**Test updating a reservation with valid data.**  
-***Done*** — Update works and reflects in the list.
+  <li><strong>Test updating a reservation with valid data.</strong><br>
+    <em>Done</em> — Update works and reflects in the list.
+  </li>
 
-**Test updating with empty data.**  
-***Done*** — Form buttons disabled until all fields are filled.
+  <li><strong>Test updating with empty data.</strong><br>
+    <em>Done</em> — Form buttons disabled until all fields are filled.
+  </li>
 
-**Test updating with invalid data.**  
-***Done*** — Allows invalid formats such as numbers in names, bad email addresses, and future dates.  
-***Action Item:*** Add input validation for all fields.
+  <li><strong>Test updating with invalid data.</strong><br>
+    <em>Done</em> — Allows invalid formats like numbers in names or bad emails.<br>
+    <strong>Action Item:</strong> Add input validation for all fields.
+  </li>
 
-**Test adding customer with non-numeric spot count.**  
-***Done*** — Prevented via input type.  
-***Action Item:*** Add extra validation for edge cases via Angular form validation.
+  <li><strong>Test adding customer with non-numeric spot count.</strong><br>
+    <em>Done</em> — Prevented via input type.<br>
+    <strong>Action Item:</strong> Add extra validation via Angular for edge cases.
+  </li>
 
-**Test updating image with invalid format.**  
-***Done*** — Image accepted and stored.  
-***Action Item:*** Block unsupported formats during update.
+  <li><strong>Test updating image with invalid format.</strong><br>
+    <em>Done</em> — Image accepted and stored.<br>
+    <strong>Action Item:</strong> Block unsupported formats during update.
+  </li>
 
-**Test deleting a reservation or customer.**  
-***Done*** — Works fine and removes image from server.
+  <li><strong>Test deleting a reservation or customer.</strong><br>
+    <em>Done</em> — Works fine and removes image from server.
+  </li>
 
-**Test reservation list display.**  
-***Done*** — Lists appear correctly with nested customers.  
-***Action Item:*** Improve layout spacing and spacing consistency.
+  <li><strong>Test reservation list display.</strong><br>
+    <em>Done</em> — Lists appear correctly with nested customers.<br>
+    <strong>Action Item:</strong> Improve layout spacing and consistency.
+  </li>
 
-**Test list auto-refresh after Add or Update.**  
-***Done*** — Updates reflected immediately.
+  <li><strong>Test list auto-refresh after Add or Update.</strong><br>
+    <em>Done</em> — Updates reflected immediately.
+  </li>
 
-**Test input character limits.**  
-***Done*** — Long text triggers backend error.  
-***Action Item:*** Limit input length using Angular + backend validation.
+  <li><strong>Test input character limits.</strong><br>
+    <em>Done</em> — Long text triggered backend error.<br>
+    <strong>Action Item:</strong> Limit input length via Angular + backend validation.
+  </li>
 
-**Test Cancel in Update after changing fields.**  
-***Done*** — Changes still submitted even after clicking Cancel.  
-***Action Item:*** Ensure cancel returns without saving and deletes no image.
+  <li><strong>Test Cancel in Update after changing fields.</strong><br>
+    <em>Done</em> — Changes still submitted even after clicking Cancel.<br>
+    <strong>Action Item:</strong> Ensure Cancel returns without saving and deletes no image.
+  </li>
 
-**Test when selecting two images in Add Reservation.**  
-***Done*** — Only final image uploaded on actual submission.
+  <li><strong>Test when selecting two images in Add Reservation.</strong><br>
+    <em>Done</em> — Only final image uploaded on actual submission.
+  </li>
 
-**Test clicking Cancel in Add after selecting an image.**  
-***Done*** — No record or image added. Behavior is as expected.
+  <li><strong>Test clicking Cancel in Add after selecting an image.</strong><br>
+    <em>Done</em> — No record or image added. Behavior is as expected.
+  </li>
 
-**Test About Us navigation from reservation list.**  
-***Done*** — Button works as expected.
+  <li><strong>Test About Us navigation from reservation list.</strong><br>
+    <em>Done</em> — Button works as expected.
+  </li>
 
-**Test return button from About Us to reservation list.**  
-***Done*** — Button works properly and routes to home page.
+  <li><strong>Test return button from About Us to reservation list.</strong><br>
+    <em>Done</em> — Button works properly and routes to home page.
+  </li>
+
+  <hr>
+
+  <h3>✅ Additional Features Implemented</h3>
+  <li><strong>Login Lockout After 3 Failed Attempts</strong><br>
+    Users are temporarily locked out for 5 minutes after 3 failed login attempts.<br>
+    ✔️ Tested: Lockout activates, countdown shows, form disabled, alert displays.
+  </li>
+
+  <li><strong>Email Notifications</strong><br>
+    Confirmation emails sent after Add and Update, including full reservation details.
+  </li>
+
+  <li><strong>Success Messages & UI Feedback</strong><br>
+    Alerts shown after form actions. Update form includes image preview and validation.
+  </li>
+
+  <li><strong>Conservation Area Dropdown Fix</strong><br>
+    Full area list always shown on update form, even if original area is not in current reservations.
+  </li>
+</ul>
