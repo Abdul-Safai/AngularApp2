@@ -14,22 +14,22 @@ import { ReservationService } from '../reservation.service';
 export class UpdateReservationComponent implements OnInit {
   customer: any = {};
   originalCustomer: any = {};
-  selectedUpdateFile: File | null = null;
-  loading: boolean = true;
-  successMessage: string = '';
-  today: string = new Date().toISOString().split('T')[0];
-
-  // ✅ Static list of all conservation areas
   areas: string[] = [
     'South Conservation Area',
     'North Conservation Area',
     'East Conservation Area',
     'West Conservation Area'
   ];
+  selectedUpdateFile: File | null = null;
+  imagePreviewUrl: string | null = null;
+  imageAlert: string = '';
+  loading: boolean = true;
+  successMessage: string = '';
+  today: string = new Date().toISOString().split('T')[0];
 
   constructor(
     private route: ActivatedRoute,
-    public router: Router,
+    private router: Router,
     private reservationService: ReservationService
   ) {}
 
@@ -53,19 +53,39 @@ export class UpdateReservationComponent implements OnInit {
     });
   }
 
-  onUpdateFileSelected(event: any): void {
-    this.selectedUpdateFile = event.target.files[0] || null;
+  onUpdateFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+
+      if (!allowedTypes.includes(file.type)) {
+        this.imageAlert = '❌ Only JPG, JPEG, PNG, or WEBP images are allowed.';
+        this.selectedUpdateFile = null;
+        this.imagePreviewUrl = null;
+        return;
+      }
+
+      this.imageAlert = '';
+      this.selectedUpdateFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onSubmit(): void {
     const formData = new FormData();
     formData.append('ID', this.customer.ID);
 
-    if (this.customer.customerName && this.customer.customerName.trim() !== this.originalCustomer.customerName) {
+    if (this.customer.customerName.trim() !== this.originalCustomer.customerName) {
       formData.append('customerName', this.customer.customerName.trim());
     }
 
-    if (this.customer.emailAddress && this.customer.emailAddress !== this.originalCustomer.emailAddress) {
+    if (this.customer.emailAddress !== this.originalCustomer.emailAddress) {
       formData.append('emailAddress', this.customer.emailAddress.trim());
     }
 
@@ -97,6 +117,8 @@ export class UpdateReservationComponent implements OnInit {
     this.reservationService.updateReservation(formData).subscribe({
       next: (res: any) => {
         this.successMessage = '✅ Reservation updated successfully. Confirmation email sent!';
+        this.imagePreviewUrl = null;
+        this.selectedUpdateFile = null;
         setTimeout(() => this.router.navigate(['/home']), 3000);
       },
       error: err => {
