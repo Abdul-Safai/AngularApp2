@@ -95,6 +95,18 @@
 .cancel-btn:hover {
   background-color: #c0392b;
 }
+.success-box {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #c3e6cb;
+}
+
+.success-text {
+  font-weight: bold;
+}
 
 /* Responsive */
 @media (max-width: 600px) {

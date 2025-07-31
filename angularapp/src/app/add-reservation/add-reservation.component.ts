@@ -13,7 +13,7 @@ import { ReservationService } from '../reservation.service';
 })
 export class AddReservationComponent {
   customerName = '';
-  customerEmail = ''; // ✅ Collecting customer email
+  customerEmail = '';
   conservationAreaName = '';
   reservationDate = '';
   reservationTime = '';
@@ -46,20 +46,21 @@ export class AddReservationComponent {
   submitReservation(): void {
     const formData = new FormData();
     formData.append('customerName', this.customerName);
-    formData.append('customerEmail', this.customerEmail);
+    formData.append('emailAddress', this.customerEmail);
     formData.append('conservationAreaName', this.conservationAreaName);
     formData.append('reservationDate', this.reservationDate);
     formData.append('reservationTime', this.reservationTime);
     formData.append('partySize', this.partySize.toString());
-
+  
     if (this.selectedImage) {
       formData.append('customerImage', this.selectedImage, this.selectedImage.name);
     }
-
+  
     this.reservationService.createReservation(formData).subscribe({
       next: (response: any) => {
+        console.log('✅ Reservation successful:', response);
         this.successMessage = '✅ Reservation created successfully. Confirmation email sent!';
-        setTimeout(() => this.router.navigate(['/home']), 3000); // Wait 3s before redirect
+        setTimeout(() => this.router.navigate(['/home']), 3000);
       },
       error: err => {
         if (err.status === 409 && err.error?.error?.includes('Duplicate')) {
@@ -71,6 +72,7 @@ export class AddReservationComponent {
       }
     });
   }
+  
 
   closeAlert(): void {
     this.alertMessage = '';

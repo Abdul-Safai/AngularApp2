@@ -2,6 +2,7 @@
   <h2>📝 Update Reservation</h2>
 
   <form (ngSubmit)="onSubmit()" class="update-form">
+    <!-- Image Preview -->
     <div class="form-section image-preview">
       <label>Current Customer Image:</label>
       <img
@@ -13,43 +14,89 @@
       />
     </div>
 
+    <!-- Name -->
     <div class="form-section">
       <label>Customer Name:</label>
-      <input type="text" [(ngModel)]="customer.customerName" name="customerName" required />
+      <input
+        type="text"
+        [(ngModel)]="customer.customerName"
+        name="customerName"
+        required
+        minlength="2"
+        maxlength="50"
+        placeholder="Enter full name"
+      />
     </div>
 
+    <!-- Email -->
     <div class="form-section">
       <label>Email Address:</label>
-      <input type="email" [(ngModel)]="customer.emailAddress" name="emailAddress" required />
+      <input
+        type="email"
+        [(ngModel)]="customer.emailAddress"
+        name="emailAddress"
+        required
+        maxlength="100"
+        placeholder="Enter email"
+      />
     </div>
 
+    <!-- Area Selection -->
     <div class="form-section">
       <label>Conservation Area:</label>
       <select [(ngModel)]="customer.conservationAreaName" name="conservationAreaName" required>
+        <option disabled value="">-- Select Area --</option>
         <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
       </select>
     </div>
 
+    <!-- Date -->
     <div class="form-section">
       <label>Reservation Date:</label>
-      <input type="date" [(ngModel)]="customer.reservationDate" name="reservationDate" [min]="today" required />
+      <input
+        type="date"
+        [(ngModel)]="customer.reservationDate"
+        name="reservationDate"
+        [min]="today"
+        required
+      />
     </div>
 
+    <!-- Time -->
     <div class="form-section">
       <label>Reservation Time:</label>
-      <input type="time" [(ngModel)]="customer.reservationTime" name="reservationTime" required />
+      <input
+        type="time"
+        [(ngModel)]="customer.reservationTime"
+        name="reservationTime"
+        required
+      />
     </div>
 
+    <!-- Party Size -->
     <div class="form-section">
       <label>Party Size:</label>
-      <input type="number" [(ngModel)]="customer.partySize" name="partySize" min="1" max="30" required />
+      <input
+        type="number"
+        [(ngModel)]="customer.partySize"
+        name="partySize"
+        required
+        min="1"
+        max="30"
+      />
     </div>
 
+    <!-- Image Upload -->
     <div class="form-section">
       <label>Update Image:</label>
-      <input type="file" (change)="onUpdateFileSelected($event)" />
+      <input
+        type="file"
+        (change)="onUpdateFileSelected($event)"
+        accept=".jpg,.jpeg,.png,.webp"
+      />
     </div>
 
+    <!-- Buttons -->
     <div class="form-actions">
       <button type="submit" class="submit-btn">Update Reservation</button>
       <button type="button" class="cancel-btn" (click)="goBack()">Cancel</button>

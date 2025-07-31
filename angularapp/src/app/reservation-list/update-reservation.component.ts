@@ -14,11 +14,18 @@ import { ReservationService } from '../reservation.service';
 export class UpdateReservationComponent implements OnInit {
   customer: any = {};
   originalCustomer: any = {};
-  areas: string[] = [];
   selectedUpdateFile: File | null = null;
   loading: boolean = true;
   successMessage: string = '';
-  today: string = new Date().toISOString().split('T')[0]; // for min date
+  today: string = new Date().toISOString().split('T')[0];
+
+  // ✅ Static list of all conservation areas
+  areas: string[] = [
+    'South Conservation Area',
+    'North Conservation Area',
+    'East Conservation Area',
+    'West Conservation Area'
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -41,9 +48,7 @@ export class UpdateReservationComponent implements OnInit {
             this.originalCustomer = { ...cust };
           }
         }
-        this.areas.push(res.conservationAreaName);
       }
-      this.areas = [...new Set(this.areas)];
       this.loading = false;
     });
   }

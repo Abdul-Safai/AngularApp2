@@ -33,7 +33,7 @@ function sendReservationEmail($customerName, $customerEmail, $area, $date, $time
                 <li><strong>Time:</strong> $time</li>
                 <li><strong>Party Size:</strong> $partySize</li>
             </ul>
-            <p>Thank you for choosing SpeakMate!</p>
+            <p>Thank you for choosing Reservation System!</p>
         ";
 
         $mail->send();

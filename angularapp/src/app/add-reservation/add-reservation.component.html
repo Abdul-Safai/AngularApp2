@@ -6,6 +6,12 @@
     <span class="alert-text">{{ alertMessage }}</span>
     <button class="close-alert" (click)="closeAlert()">×</button>
   </div>
+  <!-- Success Message -->
+<div class="success-box" *ngIf="successMessage">
+  <span class="success-text">{{ successMessage }}</span>
+  <button class="close-alert" (click)="closeAlert()">×</button>
+</div>
+
 
   <form (ngSubmit)="submitReservation()" class="reservation-form">
     <!-- Name -->
